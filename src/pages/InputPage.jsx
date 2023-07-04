@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "../components/templates/Main";
 import axios from "axios";
@@ -9,7 +9,6 @@ import Button from "../components/atoms/Button";
 
 export default function InputPage() {
     const [itemName, setItemName] = useState("");
-    const [itemId, setItemId] = useState("");
     const [categoryId, setCategoryId] = useState("");
     const [ownershipId, setOwnershipId] = useState("");
     const [locationId, setLocationId] = useState("");
@@ -17,12 +16,15 @@ export default function InputPage() {
     const [status, setStatus] = useState("");
     const [purchaseDate, setPurchaseDate] = useState("");
 
+    const [ownershipData, setOwnershipData] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
+    const [locationData, setLocationData] = useState([]);
+
     const addItem = async (e) => {
         e.preventDefault()
         try {
             await axios.post("http://localhost:3006/post", {
                 itemName: itemName,
-                itemId: itemId,
                 categoryId: categoryId,
                 ownershipId: ownershipId,
                 locationId: locationId,
@@ -36,13 +38,62 @@ export default function InputPage() {
         }
     };
 
+    // FETCH DATA OWNERSHIP
+    const fetchOwnershipData = useCallback(async () => {
+        try {
+            const response = await axios.get("http://localhost:3006/getOwnership");
+            console.log("ini adalah", response);
+            setOwnershipData(response.data.item);
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
+    useEffect(() => {
+
+        fetchOwnershipData();
+    }, []);
+
+    // FETCH CATEGORY OWNERSHIP
+    const fetchCategoryData = useCallback(async () => {
+        try {
+            const response = await axios.get("http://localhost:3006/getCategory");
+            console.log("ini adalah", response);
+            setCategoryData(response.data.item);
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
+    useEffect(() => {
+
+        fetchCategoryData();
+    }, []);
+
+    // FETCH LCOATION OWNERSHIP
+    const fetchLocationData = useCallback(async () => {
+        try {
+            const response = await axios.get("http://localhost:3006/getLocation");
+            console.log("ini adalah", response);
+            setLocationData(response.data.item);
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
+    useEffect(() => {
+
+        fetchLocationData();
+    }, []);
+
+
     return (
         <MainLayout title={"Input Barang"}>
             <form onSubmit={addItem}>
                 <InputForm
                     id="itemName"
                     name="itemName"
-                    label="itemName"
+                    label="Nama Item"
                     type="text"
                     value={itemName}
                     onChange={(e) =>
@@ -51,17 +102,7 @@ export default function InputPage() {
                     placeholder="Masukkan Nama"
                 />
 
-                <InputForm
-                    label="itemId"
-                    type="text"
-                    value={itemId}
-                    onChange={(e) =>
-                        setItemId(e.target.value)
-                    }
-                    placeholder="Kategori"
-                />
-
-                <InputForm
+                {/* <InputForm
                     label="categoryId"
                     type="text"
                     value={categoryId}
@@ -69,8 +110,26 @@ export default function InputPage() {
                         setCategoryId(e.target.value)
                     }
                     placeholder="Kategori"
-                />
-                <InputForm
+                /> */}
+
+                <Label>Kategori</Label>
+                <select
+                    id="categoryId"
+                    name="categoryId"
+                    value={categoryId}
+                    onChange={(e) => {
+                        setCategoryId(e.target.value);
+                    }}
+                    className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                >
+                    {categoryData.map((category) => (
+                        <option key={category.id} value={category.id}>
+                            {category.categoryName}
+                        </option>
+                    ))}
+                </select>
+
+                {/* <InputForm
                     label="ownershipId"
                     type="text"
                     value={ownershipId}
@@ -78,25 +137,25 @@ export default function InputPage() {
                         setOwnershipId(e.target.value)
                     }
                     placeholder="Kepemilikan"
-                />
-                {/* < <Label>Kelas</Label>
-                                        <select
-                                            id="kelas"
-                                            name="kelas"
-                                            onChange={(e) => {
-                                                setKelas(e.target.value)
-                                            }}
-                                            className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        >
-                                            <option value="Matematika">Kelas Matematika</option>
-                                            <option value="IPA">Kelas IPA</option>
-                                            <option value="IPS">Kelas IPS</option>
-                                            <option value="Bahasa">Kelas Bahasa</option>
-                                            <option value="Bela Diri">Kelas Bela Diri</option>
-                                            <option value="Tari">Kelas Tari</option>
-                                        </select>> */}
+                /> */}
+                <Label>Pemilik</Label>
+                <select
+                    id="ownershipId"
+                    name="ownershipId"
+                    value={ownershipId}
+                    onChange={(e) => {
+                        setOwnershipId(e.target.value);
+                    }}
+                    className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                >
+                    {ownershipData.map((ownership) => (
+                        <option key={ownership.id} value={ownership.id}>
+                            {ownership.ownershipName}
+                        </option>
+                    ))}
+                </select>
 
-                <InputForm
+                {/* <InputForm
                     label="locationId"
                     type="text"
                     value={locationId}
@@ -104,10 +163,27 @@ export default function InputPage() {
                         setLocationId(e.target.value)
                     }
                     placeholder="lokasi"
-                />
+                /> */}
+
+                <Label>Lokasi</Label>
+                <select
+                    id="locationId"
+                    name="locationId"
+                    value={locationId}
+                    onChange={(e) => {
+                        setLocationId(e.target.value);
+                    }}
+                    className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                >
+                    {locationData.map((location) => (
+                        <option key={location.id} value={location.id}>
+                            {location.address}
+                        </option>
+                    ))}
+                </select>
 
                 <InputForm
-                    label="qty"
+                    label="Jumlah"
                     type="text"
                     value={qty}
                     onChange={(e) =>
@@ -116,7 +192,7 @@ export default function InputPage() {
                     placeholder="Jumlah"
                 />
                 <InputForm
-                    label="status"
+                    label="Status"
                     type="text"
                     value={status}
                     onChange={(e) =>
@@ -125,7 +201,7 @@ export default function InputPage() {
                     placeholder="Status"
                 />
                 <InputForm
-                    label="purchaseDate"
+                    label="Tanggal Beli"
                     type="date"
                     value={purchaseDate}
                     onChange={(e) =>

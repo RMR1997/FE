@@ -1,100 +1,235 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { editItem, getItemById } from '../service/iventory.service';
 import axios from 'axios';
+import MainLayout from '../components/templates/Main';
+import InputForm from '../components/molecules/InputForm';
+import Button from '../components/atoms/Button';
+import Label from '../components/atoms/Label';
 
 
 
 export default function EditPage() {
 
   const { id } = useParams();
-  const [itemId, setItemId] = useState("");
+  const [item, setItem] = useState("")
+
   const [itemName, setItemName] = useState("");
+  const [itemId, setItemId] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [ownershipId, setOwnershipId] = useState("");
   const [locationId, setLocationId] = useState("");
   const [qty, setQty] = useState("");
   const [status, setStatus] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
- 
-  
+
+  const [ownershipData, setOwnershipData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [locationData, setLocationData] = useState([]);
+
+
+
   const updateUser = async (id) => {
     try {
-      const reqdata = { 
-        namabarang : itemName,
-        kategori: categoryId,
-        kepemilikan : ownershipId,
-        lokasi: locationId,
-        stock: qty,
+      const reqdata = {
+        itemName: itemName,
+        itemId: itemId,
+        categoryId: categoryId,
+        ownershipId: ownershipId,
+        locationId: locationId,
+        qty: qty,
         status: status,
-        tanggalbeli: purchaseDate 
+        purchaseDate: purchaseDate
       }
-        await axios.put(`http://localhost:3006/update/${id}`, reqdata);
-        window.location.href="/edit"
-        // navigate("/");
+      await axios.put(`http://localhost:3006/update/${id}`, reqdata);
+      window.location.href = "/datapage"
+
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
+  };
 
   useEffect(() => {
     getItemById(id, (data) => {
       console.log(getItemById);
-      setItemId(data.data);
+      setItem(data.data);
     });
   }, [id]);
-  console.log(itemId);
+  console.log(item);
 
   useEffect(() => {
-    setItemName(itemId.itemName)
-    setCategoryId(itemId.categoryId)
-    setOwnershipId(itemId.ownershipId)
-    setLocationId(itemId.locationId)
-    setQty(itemId.qty)
-    setStatus(itemId.status)
-    setPurchaseDate(itemId.purchaseDate)
-  },[itemId])
+    setItemName(item.itemName)
+    setItemId(item.itemId)
+    setCategoryId(item.categoryId)
+    setOwnershipId(item.ownershipId)
+    setLocationId(item.locationId)
+    setQty(item.qty)
+    setStatus(item.status)
+    setPurchaseDate(item.purchaseDate)
+  }, [item])
+
+  // FETCH DATA OWNERSHIP
+  const fetchOwnershipData = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3006/getOwnership");
+      console.log("ini adalah", response);
+      setOwnershipData(response.data.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+
+    fetchOwnershipData();
+  }, []);
+
+  // FETCH CATEGORY OWNERSHIP
+  const fetchCategoryData = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3006/getCategory");
+      console.log("ini adalah", response);
+      setCategoryData(response.data.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+
+    fetchCategoryData();
+  }, []);
+
+  // FETCH LOCATION 
+  const fetchLocationData = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3006/getLocation");
+      console.log("ini adalah", response);
+      setLocationData(response.data.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+
+    fetchLocationData();
+  }, []);
 
 
-  return (
-    <div className="flex flex-col justify-center w-full h-full p-20">
-      <form onSubmit={(e) => { 
-        e.preventDefault()
-        updateUser(data.id)
-      }}
+  return (<MainLayout title={"Edit Barang"}>
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      updateUser(item.id)
+    }}
+    >
+      <InputForm
+        name="itemName"
+        label="Nama item"
+        type="text"
+        value={itemName}
+        onChange={(e) =>
+          setItemName(e.target.value)
+        }
+        placeholder="Masukkan Nama"
+      />
+      <InputForm
+        name="itemId"
+        label="itemId"
+        type="text"
+        value={itemId}
+        onChange={(e) =>
+          setItemId(e.target.value)
+        }
+        placeholder="Masukkan Id"
+      />
+
+      <Label>Kategori</Label>
+      <select
+        id="categoryId"
+        name="categoryId"
+        value={categoryId}
+        onChange={(e) => {
+          setCategoryId(e.target.value);
+        }}
+        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       >
-        <div className="flex flex-col justify-center items-center w-full px-44 space-y-8">
-          <div className="flex flex-col w-full space-y-2">
-            <label htmlFor="itemName" className="text-md font-semibold text-gray-700">NAMA BARANG :</label>
-            <input type="text" id="itemName" name="itemName" value={itemName} onChange={(e) => setItemName(e.target.value)} required
-              className="py-2 px-4 rounded-md bg-gray-100"></input>
-          </div>
+        {categoryData.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.categoryName}
+          </option>
+        ))}
+      </select>
 
-          <div className="flex flex-col w-full space-y-2">
-            <label htmlFor="umur" className="text-md font-semibold text-gray-700">KATEGORI </label>
-            <input type="text" id="umur" name="umur" value={umur} onChange={(e) => setUmur(e.target.value)} required
-              className="py-2 px-4 rounded-md bg-gray-100"></input>
-          </div>
 
-          <div className="flex flex-col w-full space-y-2">
-            <label htmlFor="tempatlahir" className="text-md font-semibold text-gray-700">Tempat Lahir:</label>
-            <input type="tempatlahir" id="tempatlahir" name="tempatlahir" value={tempatlahir} onChange={(e) => setTempatLahir(e.target.value)} required
-              className="py-2 px-4 rounded-md bg-gray-100"></input>
-          </div>
-            
-          <div className="flex flex-col w-full space-y-2">
-                            <label htmlFor="noHp" className="text-md font-semibold text-gray-700">No Telp:</label>
-                            <input type="noHp" id="noHp" name="noHp" value={noHp} onChange={(e) => setNoHp(e.target.value)} required
-                                className="py-2 px-4 rounded-md bg-gray-100"></input>
-                        </div>
-                        <button type="submit"
-                            className="bg-gray-900 text-lg font-semibold text-gray-100 px-4 py-2 rounded-md w-1/2">
-                            UPDATE DATA
-                        </button>
-        </div>
-      </form>
+      <Label>Pemilik</Label>
+      <select
+        id="ownershipId"
+        name="ownershipId"
+        value={ownershipId}
+        onChange={(e) => {
+          setOwnershipId(e.target.value);
+        }}
+        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      >
+        {ownershipData.map((ownership) => (
+          <option key={ownership.id} value={ownership.id}>
+            {ownership.ownershipName}
+          </option>
+        ))}
+      </select>
 
-    </div>
+      <Label>Lokasi</Label>
+      <select
+        id="locationId"
+        name="locationId"
+        value={locationId}
+        onChange={(e) => {
+          setLocationId(e.target.value);
+        }}
+        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      >
+        {locationData.map((location) => (
+          <option key={location.id} value={location.id}>
+            {location.address}
+          </option>
+        ))}
+      </select>
+
+      <InputForm
+        label="qty"
+        type="text"
+        value={qty}
+        onChange={(e) =>
+          setQty(e.target.value)
+        }
+        placeholder="Jumlah"
+      />
+      <InputForm
+        label="status"
+        type="text"
+        value={status}
+        onChange={(e) =>
+          setStatus(e.target.value)
+        }
+        placeholder="Status"
+      />
+      <InputForm
+        label="purchaseDate"
+        type="date"
+        value={purchaseDate}
+        onChange={(e) =>
+          setPurchaseDate(e.target.value)
+        }
+        placeholder="Tanggal pembelian"
+      />
+
+      <Button color="bg-green-500" text="text-white" type="submit">
+        Edit
+      </Button>
+    </form>
+  </MainLayout>
+
 
   )
 }
