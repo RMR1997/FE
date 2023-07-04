@@ -6,6 +6,7 @@ import MainLayout from '../components/templates/Main';
 import InputForm from '../components/molecules/InputForm';
 import Button from '../components/atoms/Button';
 import Label from '../components/atoms/Label';
+import moment from 'moment';
 
 
 
@@ -65,7 +66,7 @@ export default function EditPage() {
     setLocationId(item.locationId)
     setQty(item.qty)
     setStatus(item.status)
-    setPurchaseDate(item.purchaseDate)
+    setPurchaseDate(moment(item.purchaseDate).format("YYYY-MM-DD"))
   }, [item])
 
   // FETCH DATA OWNERSHIP

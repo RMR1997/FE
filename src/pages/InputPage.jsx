@@ -120,8 +120,10 @@ export default function InputPage() {
                     onChange={(e) => {
                         setCategoryId(e.target.value);
                     }}
-                    className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                >
+                    className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled>
+                        Select Category
+                    </option>
                     {categoryData.map((category) => (
                         <option key={category.id} value={category.id}>
                             {category.categoryName}
@@ -147,7 +149,9 @@ export default function InputPage() {
                         setOwnershipId(e.target.value);
                     }}
                     className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                >
+                >    <option value="" disabled>
+                        Select Ownership
+                    </option>
                     {ownershipData.map((ownership) => (
                         <option key={ownership.id} value={ownership.id}>
                             {ownership.ownershipName}
@@ -173,9 +177,12 @@ export default function InputPage() {
                     onChange={(e) => {
                         setLocationId(e.target.value);
                     }}
-                    className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                >
+                    className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                    <option value="" disabled>
+                        Select Location
+                    </option>
                     {locationData.map((location) => (
+
                         <option key={location.id} value={location.id}>
                             {location.address}
                         </option>
