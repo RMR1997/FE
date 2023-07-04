@@ -196,7 +196,7 @@ export default function DataPage() {
                 <td className="px-6 py-4">{data.ownership.ownershipName}</td>
                 <td className="px-6 py-4"><a target="blank_" href={data.location.mapUrl}>{data.location.address}</a></td>
                 <td className="px-6 py-4">{data.qty}</td>
-                <td className="px-6 py-4">{data.status}</td>
+                <td className="px-6 py-4">{data.status >= 70 ? "SANGAT BAIK" : data.status >= 50 ? "BAIK" : "HARUS DI GANTI"}</td>
                 <td className="px-6 py-4">{moment(data.purchaseDate).format("DD-MM-YYYY")}</td>
                 <td className="flex px-6 py-4 justify-between">
                   <Link to={`/edit/${data.id}`}> <a href="" className="text-blue-500 hover:underline">Edit</a></Link>
