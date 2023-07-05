@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Input(props) {
-  const { type, placeholder, name, onChange, value, disabled } = props;
+  const { type, placeholder, name, onChange, value, required } = props;
 
   return (
     <input
@@ -11,7 +11,7 @@ export default function Input(props) {
       id={name}
       value={value}
       onChange={onChange}
-      disabled={disabled}
+      required={required}
       className="text-sm border rounded-md w-full py-2 px-3 text-slate-700 placeholder:text-slate-400 bg-gray-200"
     />
   )
