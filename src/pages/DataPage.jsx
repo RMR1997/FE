@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { deleteItem, getAllItems } from "../service/iventory.service";
 import moment from "moment";
 import axios from "axios";
+import Icons from "../components/atoms/icons";
+
 
 
 export default function DataPage() {
@@ -71,7 +73,27 @@ export default function DataPage() {
     console.log('Melakukan pencarian dengan kata kunci:', search);
   };
 
-  // const furniture = categoryData.id
+  const calculateCondition = (purchaseDate) => {
+    if (purchaseDate) {
+      const currentDate = new Date();
+      const yearsSincePurchase =
+        currentDate.getFullYear() - new Date(purchaseDate).getFullYear();
+      const conditionPercentage = 100 - yearsSincePurchase * 10;
+
+      if (conditionPercentage >= 70) {
+        return "SANGAT BAIK";
+      } else if (conditionPercentage >= 50) {
+        return "BAIK";
+      } else if (conditionPercentage >= 30) {
+        return "KURANG BAIK";
+      } else {
+        return "TIDAK LAYAK";
+      }
+    }
+  };
+
+
+
   return (
 
     <MainLayout title={"Data Barang"}>
@@ -153,6 +175,9 @@ export default function DataPage() {
             <th scope="col" className="px-6 py-3">
               Status
             </th>
+            {/* <th scope="col" className="px-6 py-3">
+              Value
+            </th> */}
             <th scope="col" className="px-6 py-3">
               Tanggal Beli
             </th>
@@ -163,7 +188,10 @@ export default function DataPage() {
         </thead>
         <tbody>
           {item.filter((data) => {
-            return search.toLowerCase() === '' ? data : data.itemName.toLowerCase().includes(search);
+            // return search === '' ? data : data.itemName.toLowerCase().includes(search);
+            const itemName = data.itemName.toLowerCase();
+            const query = search.toLowerCase();
+            return itemName.includes(query);
           })
             .filter((data) => {
               const categoryFilter = document.getElementById("category").value;
@@ -178,35 +206,46 @@ export default function DataPage() {
               return ownershipFilter === ""
                 ? data : ownershipFilter === "1" ? data.ownership.id === 1
                   : data.ownership.id === 2
-            }).map((data, index) => (
+            }).map((data, index) => {
+              const condition = calculateCondition(data.purchaseDate);
+              return (
 
-              <tr
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                key={data.id}
-              >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                <tr
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  key={data.id}
                 >
-                  {index + 1}
-                </th>
-                <td className="px-6 py-4">{data.itemId}</td>
-                <td className="px-6 py-4">{data.itemName}</td>
-                <td className="px-6 py-4">{data.category.categoryName}</td>
-                <td className="px-6 py-4">{data.ownership.ownershipName}</td>
-                <td className="px-6 py-4"><a target="blank_" href={data.location.mapUrl}>{data.location.address}</a></td>
-                <td className="px-6 py-4">{data.qty}</td>
-                <td className="px-6 py-4">{data.status >= 70 ? "SANGAT BAIK" : data.status >= 50 ? "BAIK" : "HARUS DI GANTI"}</td>
-                <td className="px-6 py-4">{moment(data.purchaseDate).format("DD-MM-YYYY")}</td>
-                <td className="flex px-6 py-4 justify-between">
-                  <Link to={`/edit/${data.id}`}> <a href="" className="text-blue-500 hover:underline">Edit</a></Link>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {index + 1}
+                  </th>
+                  <td className="px-6 py-4">{data.itemId}</td>
+                  <td className="px-6 py-4">{data.itemName}</td>
+                  <td className="px-6 py-4">{data.category.categoryName}</td>
+                  <td className="px-6 py-4">{data.ownership.ownershipName}</td>
+                  <td className="px-6 py-4"><a target="blank_" href={data.location.mapUrl}>{data.location.address}</a></td>
+                  <td className="px-6 py-4">{data.qty}</td>
+                  <td className="px-6 py-4">{condition}</td>
+                  {/* <td className="px-6 py-4">{data.status}%</td> */}
+                  <td className="px-6 py-4">{moment(data.purchaseDate).format("DD-MM-YYYY")}</td>
 
-                  <button className="text-red-500 hover:underline" onClick={() => deleteItem(data.id)}>Delete</button>
+                  <td className=" px-6 py-4 flex justify-between items-center">
+                    <Link to={`/edit/${data.id}`}>
+                      {" "}
+                      <a href="" className="">
+                        <Icons.pen width="25px" height="25px" />
+                      </a>
+                    </Link>
+                    <button className="" onClick={() => deleteItem(data.id)}>
+                      <Icons.trash width="35px" height="35px" color="#ff0000" />
+                    </button>
+                  </td>
 
 
-                </td>
-              </tr>
-            ))}
+                </tr>
+              )
+            })}
         </tbody>
       </table>
     </MainLayout>

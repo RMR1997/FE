@@ -13,12 +13,13 @@ export default function InputPage() {
     const [ownershipId, setOwnershipId] = useState("");
     const [locationId, setLocationId] = useState("");
     const [qty, setQty] = useState("");
-    const [status, setStatus] = useState("");
+    // const [status, setStatus] = useState("");
     const [purchaseDate, setPurchaseDate] = useState("");
 
     const [ownershipData, setOwnershipData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
     const [locationData, setLocationData] = useState([]);
+
 
     const addItem = async (e) => {
         e.preventDefault()
@@ -29,7 +30,7 @@ export default function InputPage() {
                 ownershipId: ownershipId,
                 locationId: locationId,
                 qty: qty,
-                status: status,
+                // status: status,
                 purchaseDate: purchaseDate
             })
             window.location.href = "/datapage";
@@ -95,6 +96,7 @@ export default function InputPage() {
                     name="itemName"
                     label="Nama Item"
                     type="text"
+                    required="required"
                     value={itemName}
                     onChange={(e) =>
                         setItemName(e.target.value)
@@ -102,21 +104,12 @@ export default function InputPage() {
                     placeholder="Masukkan Nama"
                 />
 
-                {/* <InputForm
-                    label="categoryId"
-                    type="text"
-                    value={categoryId}
-                    onChange={(e) =>
-                        setCategoryId(e.target.value)
-                    }
-                    placeholder="Kategori"
-                /> */}
-
                 <Label>Kategori</Label>
                 <select
                     id="categoryId"
                     name="categoryId"
                     value={categoryId}
+                    required="required"
                     onChange={(e) => {
                         setCategoryId(e.target.value);
                     }}
@@ -131,20 +124,12 @@ export default function InputPage() {
                     ))}
                 </select>
 
-                {/* <InputForm
-                    label="ownershipId"
-                    type="text"
-                    value={ownershipId}
-                    onChange={(e) =>
-                        setOwnershipId(e.target.value)
-                    }
-                    placeholder="Kepemilikan"
-                /> */}
                 <Label>Pemilik</Label>
                 <select
                     id="ownershipId"
                     name="ownershipId"
                     value={ownershipId}
+                    required="required"
                     onChange={(e) => {
                         setOwnershipId(e.target.value);
                     }}
@@ -159,21 +144,12 @@ export default function InputPage() {
                     ))}
                 </select>
 
-                {/* <InputForm
-                    label="locationId"
-                    type="text"
-                    value={locationId}
-                    onChange={(e) =>
-                        setLocationId(e.target.value)
-                    }
-                    placeholder="lokasi"
-                /> */}
-
                 <Label>Lokasi</Label>
                 <select
                     id="locationId"
                     name="locationId"
                     value={locationId}
+                    required="required"
                     onChange={(e) => {
                         setLocationId(e.target.value);
                     }}
@@ -193,31 +169,26 @@ export default function InputPage() {
                     label="Jumlah"
                     type="text"
                     value={qty}
+                    required="required"
                     onChange={(e) =>
                         setQty(e.target.value)
                     }
                     placeholder="Jumlah"
                 />
-                <InputForm
-                    label="Status"
-                    type="text"
-                    value={status}
-                    onChange={(e) =>
-                        setStatus(e.target.value)
-                    }
-                    placeholder="Status"
-                />
+
                 <InputForm
                     label="Tanggal Beli"
                     type="date"
                     value={purchaseDate}
-                    onChange={(e) =>
-                        setPurchaseDate(e.target.value)
-                    }
+                    required="required"
+                    onChange={(e) => {
+                        setPurchaseDate(e.target.value);
+                    }}
                     placeholder="Tanggal pembelian"
                 />
+
                 <Button color="bg-green-500" text="text-white" type="submit">
-                    Daftar
+                    Tambah
                 </Button>
             </form>
         </MainLayout>

@@ -21,7 +21,7 @@ export default function EditPage() {
   const [ownershipId, setOwnershipId] = useState("");
   const [locationId, setLocationId] = useState("");
   const [qty, setQty] = useState("");
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
 
   const [ownershipData, setOwnershipData] = useState([]);
@@ -39,7 +39,7 @@ export default function EditPage() {
         ownershipId: ownershipId,
         locationId: locationId,
         qty: qty,
-        status: status,
+        // status: status,
         purchaseDate: purchaseDate
       }
       await axios.put(`http://localhost:3006/update/${id}`, reqdata);
@@ -65,7 +65,7 @@ export default function EditPage() {
     setOwnershipId(item.ownershipId)
     setLocationId(item.locationId)
     setQty(item.qty)
-    setStatus(item.status)
+    // setStatus(item.status)
     setPurchaseDate(moment(item.purchaseDate).format("YYYY-MM-DD"))
   }, [item])
 
@@ -206,7 +206,7 @@ export default function EditPage() {
         }
         placeholder="Jumlah"
       />
-      <InputForm
+      {/* <InputForm
         label="status"
         type="text"
         value={status}
@@ -214,7 +214,7 @@ export default function EditPage() {
           setStatus(e.target.value)
         }
         placeholder="Status"
-      />
+      /> */}
       <InputForm
         label="purchaseDate"
         type="date"

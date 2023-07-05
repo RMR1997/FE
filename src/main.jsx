@@ -9,6 +9,9 @@ import DataPage from './pages/DataPage';
 import InputPage from './pages/InputPage';
 import TrackPage from './pages/track';
 import EditPage from './pages/EditPage';
+import InputOwnership from './pages/inputownership';
+import InputLocation from './pages/inputlocation';
+import InputCategory from './pages/inputcategory';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +38,18 @@ const router = createBrowserRouter([
   {
     path: "/edit/:id",
     element: <EditPage />,
+  },
+  {
+    path: "/inputownership",
+    element: <InputOwnership />,
+  },
+  {
+    path: "/inputcategory",
+    element: <InputCategory />,
+  },
+  {
+    path: "/inputlocation",
+    element: <InputLocation />,
   },
 ]);
 
