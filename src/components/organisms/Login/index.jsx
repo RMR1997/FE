@@ -3,10 +3,13 @@ import { useState } from "react";
 //import InputForm from "../../molecules/InputForm";
 import axios from "axios";
 import Button from "../../atoms/Button";
+import swal from "sweetalert";
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loginError, setLoginError] = useState(false);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -16,10 +19,14 @@ export default function Login() {
       })
 
       localStorage.setItem("token", data.token)
-      alert("sukses masuk")
-      window.location.href = "/dashboard"
+      setLoginError(false);
+      // Munculkan alert keren dengan menggunakan SweetAlert atau library sejenisnya
+      // Contoh penggunaan SweetAlert:
+      swal("Berhasil", "Login Berhasil", "success").then(() => {
+        window.location.href = "/dashboard";
+      });
     } catch (error) {
-      alert("username tidak ditemukan")
+      setLoginError(true);
       console.log(error);
     }
   };
@@ -50,30 +57,13 @@ export default function Login() {
         </div>
       </div>
 
-      {/* <InputForm 
-        label="Email" 
-        value={email}
-        name="email"
-        onChange={(e) => {
-          setEmail(e.target.value)
-        }}
-        type="email"
-        placeholder="Email" 
-        /> */}
-
-      {/* <InputForm
-          label="Password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value)
-          }}
-          placeholder="Masukkan password"
-        /> */}
       <Button color="bg-green-600" text="text-white">
         Masuk
       </Button>
+
+      {loginError && (
+        <div className="text-red-500 mt-2">Username atau password tidak ditemukan</div>
+      )}
     </form>
   );
 }

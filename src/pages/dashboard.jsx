@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import InfoBox from "../components/organisms/InfoBox";
 import { getAllItems } from "../service/iventory.service";
 import ErrorPage from "./error";
+import LoginPage from "./login";
 
 
 
@@ -88,7 +89,8 @@ const Dashboard = () => {
                     </div>
                 </MainLayout>
             ) : (
-                <ErrorPage />
+                <LoginPage />
+
             )}
         </>
     );

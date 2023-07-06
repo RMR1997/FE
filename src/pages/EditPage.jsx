@@ -7,6 +7,8 @@ import InputForm from '../components/molecules/InputForm';
 import Button from '../components/atoms/Button';
 import Label from '../components/atoms/Label';
 import moment from 'moment';
+import swal from 'sweetalert';
+import LoginPage from './login';
 
 
 
@@ -29,6 +31,20 @@ export default function EditPage() {
   const [locationData, setLocationData] = useState([]);
 
 
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("token", error);
+  }, [error]);
+
+
 
   const updateUser = async (id) => {
     try {
@@ -43,12 +59,14 @@ export default function EditPage() {
         purchaseDate: purchaseDate
       }
       await axios.put(`http://localhost:3006/update/${id}`, reqdata);
+      swal('Berhasil', 'Berhasil Edit Data', 'success');
       window.location.href = "/datapage"
 
     } catch (error) {
       console.log(error);
     }
   };
+
 
   useEffect(() => {
     getItemById(id, (data) => {
@@ -118,119 +136,121 @@ export default function EditPage() {
   }, []);
 
 
-  return (<MainLayout title={"Edit Barang"}>
-    <form onSubmit={(e) => {
-      e.preventDefault()
-      updateUser(item.id)
-    }}
-    >
-      <InputForm
-        name="itemName"
-        label="Nama item"
-        type="text"
-        value={itemName}
-        onChange={(e) =>
-          setItemName(e.target.value)
-        }
-        placeholder="Masukkan Nama"
-      />
-      <InputForm
-        name="itemId"
-        label="itemId"
-        type="text"
-        value={itemId}
-        onChange={(e) =>
-          setItemId(e.target.value)
-        }
-        placeholder="Masukkan Id"
-      />
 
-      <Label>Kategori</Label>
-      <select
-        id="categoryId"
-        name="categoryId"
-        value={categoryId}
-        onChange={(e) => {
-          setCategoryId(e.target.value);
-        }}
-        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      >
-        {categoryData.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.categoryName}
-          </option>
-        ))}
-      </select>
+  return (
+
+    <>
+      {!error ? (
+
+        <MainLayout title={"Edit Barang"}>
+          <form onSubmit={(e) => {
+            e.preventDefault()
+            updateUser(item.id)
+          }}
+          >
+            <InputForm
+              name="itemName"
+              label="Nama item"
+              type="text"
+              value={itemName}
+              onChange={(e) =>
+                setItemName(e.target.value)
+              }
+              placeholder="Masukkan Nama"
+            />
+            <InputForm
+              name="itemId"
+              label="itemId"
+              type="text"
+              value={itemId}
+              onChange={(e) =>
+                setItemId(e.target.value)
+              }
+              placeholder="Masukkan Id"
+            />
+
+            <Label>Kategori</Label>
+            <select
+              id="categoryId"
+              name="categoryId"
+              value={categoryId}
+              onChange={(e) => {
+                setCategoryId(e.target.value);
+              }}
+              className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {categoryData.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.categoryName}
+                </option>
+              ))}
+            </select>
 
 
-      <Label>Pemilik</Label>
-      <select
-        id="ownershipId"
-        name="ownershipId"
-        value={ownershipId}
-        onChange={(e) => {
-          setOwnershipId(e.target.value);
-        }}
-        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      >
-        {ownershipData.map((ownership) => (
-          <option key={ownership.id} value={ownership.id}>
-            {ownership.ownershipName}
-          </option>
-        ))}
-      </select>
+            <Label>Pemilik</Label>
+            <select
+              id="ownershipId"
+              name="ownershipId"
+              value={ownershipId}
+              onChange={(e) => {
+                setOwnershipId(e.target.value);
+              }}
+              className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {ownershipData.map((ownership) => (
+                <option key={ownership.id} value={ownership.id}>
+                  {ownership.ownershipName}
+                </option>
+              ))}
+            </select>
 
-      <Label>Lokasi</Label>
-      <select
-        id="locationId"
-        name="locationId"
-        value={locationId}
-        onChange={(e) => {
-          setLocationId(e.target.value);
-        }}
-        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      >
-        {locationData.map((location) => (
-          <option key={location.id} value={location.id}>
-            {location.address}
-          </option>
-        ))}
-      </select>
+            <Label>Lokasi</Label>
+            <select
+              id="locationId"
+              name="locationId"
+              value={locationId}
+              onChange={(e) => {
+                setLocationId(e.target.value);
+              }}
+              className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {locationData.map((location) => (
+                <option key={location.id} value={location.id}>
+                  {location.address}
+                </option>
+              ))}
+            </select>
 
-      <InputForm
-        label="qty"
-        type="text"
-        value={qty}
-        onChange={(e) =>
-          setQty(e.target.value)
-        }
-        placeholder="Jumlah"
-      />
-      {/* <InputForm
-        label="status"
-        type="text"
-        value={status}
-        onChange={(e) =>
-          setStatus(e.target.value)
-        }
-        placeholder="Status"
-      /> */}
-      <InputForm
-        label="purchaseDate"
-        type="date"
-        value={purchaseDate}
-        onChange={(e) =>
-          setPurchaseDate(e.target.value)
-        }
-        placeholder="Tanggal pembelian"
-      />
+            <InputForm
+              label="qty"
+              type="text"
+              value={qty}
+              onChange={(e) =>
+                setQty(e.target.value)
+              }
+              placeholder="Jumlah"
+            />
 
-      <Button color="bg-green-500" text="text-white" type="submit">
-        Edit
-      </Button>
-    </form>
-  </MainLayout>
+            <InputForm
+              label="purchaseDate"
+              type="date"
+              value={purchaseDate}
+              onChange={(e) =>
+                setPurchaseDate(e.target.value)
+              }
+              placeholder="Tanggal pembelian"
+            />
 
+            <Button color="bg-green-500" text="text-white" type="submit">
+              Edit
+            </Button>
+          </form>
+        </MainLayout>
+      ) : (
+        <LoginPage />
+
+      )}
+    </>
 
   )
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
 
 export default function Navbar() {
     const [showLogoutButton, setShowLogoutButton] = useState(false);
@@ -27,6 +28,25 @@ export default function Navbar() {
     }, []);
 
     const date = new Date()
+
+    const handleLogout = () => {
+        swal({
+            title: "Apakah Anda yakin akan keluar?",
+            text: "Anda akan logout dari aplikasi.",
+            icon: "warning",
+            buttons: ["Batal", "Logout"],
+            dangerMode: true,
+        }).then((confirmLogout) => {
+            if (confirmLogout) {
+                // Lakukan proses logout
+                localStorage.clear();
+                swal("Berhasil Logout", "Anda telah keluar.", "success").then(() => {
+                    // Redirect ke halaman logout
+                    window.location.href = "/";
+                });
+            }
+        });
+    };
     return (
         <>
             <div className="flex justify-center w-full h-[20%] p-4">
@@ -41,10 +61,7 @@ export default function Navbar() {
 
                         <button
                             className="bg-white border rounded-md text-md font-semibold text-white hover:bg-blue-500 hover:text-white shadow w-20 dark:bg-gray-400  transition duration-200 py-2"
-                            onClick={() => {
-                                localStorage.clear();
-                                window.location.href = "/";
-                            }}
+                            onClick={handleLogout}
                         >
                             Logout
                         </button>
