@@ -109,109 +109,109 @@ export default function InputPage() {
 
         <>
             {!error ? (
-                <MainLayout title={"Input Barang"}>
-                    <form onSubmit={addItem}>
-                        <InputForm
-                            id="itemName"
-                            name="itemName"
-                            label="Nama Item"
-                            type="text"
-                            required="required"
-                            value={itemName}
-                            onChange={(e) =>
-                                setItemName(e.target.value)
-                            }
-                            placeholder="Masukkan Nama"
-                        />
 
-                        <Label>Kategori</Label>
-                        <select
-                            id="categoryId"
-                            name="categoryId"
-                            value={categoryId}
-                            required="required"
-                            onChange={(e) => {
-                                setCategoryId(e.target.value);
-                            }}
-                            className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="" disabled>
-                                Select Category
+                <form onSubmit={addItem}>
+                    <InputForm
+                        id="itemName"
+                        name="itemName"
+                        label="Nama Item"
+                        type="text"
+                        required="required"
+                        value={itemName}
+                        onChange={(e) =>
+                            setItemName(e.target.value)
+                        }
+                        placeholder="Masukkan Nama"
+                    />
+
+                    <Label>Kategori</Label>
+                    <select
+                        id="categoryId"
+                        name="categoryId"
+                        value={categoryId}
+                        required="required"
+                        onChange={(e) => {
+                            setCategoryId(e.target.value);
+                        }}
+                        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="" disabled>
+                            Select Category
+                        </option>
+                        {categoryData.map((category) => (
+                            <option key={category.id} value={category.id}>
+                                {category.categoryName}
                             </option>
-                            {categoryData.map((category) => (
-                                <option key={category.id} value={category.id}>
-                                    {category.categoryName}
-                                </option>
-                            ))}
-                        </select>
+                        ))}
+                    </select>
 
-                        <Label>Pemilik</Label>
-                        <select
-                            id="ownershipId"
-                            name="ownershipId"
-                            value={ownershipId}
-                            required="required"
-                            onChange={(e) => {
-                                setOwnershipId(e.target.value);
-                            }}
-                            className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        >    <option value="" disabled>
-                                Select Ownership
+                    <Label>Pemilik</Label>
+                    <select
+                        id="ownershipId"
+                        name="ownershipId"
+                        value={ownershipId}
+                        required="required"
+                        onChange={(e) => {
+                            setOwnershipId(e.target.value);
+                        }}
+                        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    >    <option value="" disabled>
+                            Select Ownership
+                        </option>
+                        {ownershipData.map((ownership) => (
+                            <option key={ownership.id} value={ownership.id}>
+                                {ownership.ownershipName}
                             </option>
-                            {ownershipData.map((ownership) => (
-                                <option key={ownership.id} value={ownership.id}>
-                                    {ownership.ownershipName}
-                                </option>
-                            ))}
-                        </select>
+                        ))}
+                    </select>
 
-                        <Label>Lokasi</Label>
-                        <select
-                            id="locationId"
-                            name="locationId"
-                            value={locationId}
-                            required="required"
-                            onChange={(e) => {
-                                setLocationId(e.target.value);
-                            }}
-                            className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
-                            <option value="" disabled>
-                                Select Location
+                    <Label>Lokasi</Label>
+                    <select
+                        id="locationId"
+                        name="locationId"
+                        value={locationId}
+                        required="required"
+                        onChange={(e) => {
+                            setLocationId(e.target.value);
+                        }}
+                        className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                        <option value="" disabled>
+                            Select Location
+                        </option>
+                        {locationData.map((location) => (
+
+                            <option key={location.id} value={location.id}>
+                                {location.address}
                             </option>
-                            {locationData.map((location) => (
+                        ))}
+                    </select>
 
-                                <option key={location.id} value={location.id}>
-                                    {location.address}
-                                </option>
-                            ))}
-                        </select>
+                    <InputForm
+                        label="Jumlah"
+                        type="text"
+                        value={qty}
+                        required="required"
+                        onChange={(e) =>
+                            setQty(e.target.value)
+                        }
+                        placeholder="Jumlah"
+                    />
 
-                        <InputForm
-                            label="Jumlah"
-                            type="text"
-                            value={qty}
-                            required="required"
-                            onChange={(e) =>
-                                setQty(e.target.value)
-                            }
-                            placeholder="Jumlah"
-                        />
+                    <InputForm
+                        label="Tanggal Beli"
+                        type="date"
+                        value={purchaseDate}
+                        required="required"
+                        onChange={(e) => {
+                            setPurchaseDate(e.target.value);
+                        }}
+                        placeholder="Tanggal pembelian"
+                    />
 
-                        <InputForm
-                            label="Tanggal Beli"
-                            type="date"
-                            value={purchaseDate}
-                            required="required"
-                            onChange={(e) => {
-                                setPurchaseDate(e.target.value);
-                            }}
-                            placeholder="Tanggal pembelian"
-                        />
+                    <Button color="bg-green-500" text="text-white" type="submit">
+                        Tambah
+                    </Button>
+                </form>
 
-                        <Button color="bg-green-500" text="text-white" type="submit">
-                            Tambah
-                        </Button>
-                    </form>
-                </MainLayout>
 
             ) : (
                 <LoginPage />

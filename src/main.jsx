@@ -12,6 +12,7 @@ import EditPage from './pages/EditPage';
 import InputOwnership from './pages/inputownership';
 import InputLocation from './pages/inputlocation';
 import InputCategory from './pages/inputcategory';
+import Tabs from './pages/input';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/inputlocation",
     element: <InputLocation />,
+  },
+  {
+    path: "/input",
+    element: <Tabs />,
   },
 ]);
 
