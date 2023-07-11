@@ -1,18 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorPage from './pages/error';
-import LoginPage from './pages/login';
+import ErrorPage from "./pages/error";
+import LoginPage from "./pages/login";
 import "./index.css";
-import Dashboard from './pages/dashboard';
-import DataPage from './pages/DataPage';
-import InputPage from './pages/InputPage';
-import TrackPage from './pages/track';
-import EditPage from './pages/EditPage';
-import InputOwnership from './pages/inputownership';
-import InputLocation from './pages/inputlocation';
-import InputCategory from './pages/inputcategory';
-import Tabs from './pages/input';
+import Dashboard from "./pages/dashboard";
+import DataPage from "./pages/DataPage";
+import InputPage from "./pages/InputPage";
+import TrackPage from "./pages/track";
+import EditPage from "./pages/EditPage";
+import InputOwnership from "./pages/inputownership";
+import InputLocation from "./pages/inputlocation";
+import InputCategory from "./pages/inputcategory";
+import DetailPage from "./pages/DetailPage";
+import Input from "./components/atoms/Input";
+import Tabs from "./pages/input";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/inputpage",
-    element: <InputPage />,
+    element: <Tabs />,
   },
   {
     path: "/track",
@@ -53,13 +55,13 @@ const router = createBrowserRouter([
     element: <InputLocation />,
   },
   {
-    path: "/input",
-    element: <Tabs />,
+    path: "/details/:id",
+    element: <DetailPage />,
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

@@ -7,20 +7,33 @@ import axios from "axios";
 import Icons from "../components/atoms/icons";
 import swal from "sweetalert";
 import LoginPage from "./login";
+import { IoMdEye } from "react-icons/io";
+import Modal2 from "../components/atoms/Modal";
+import DetailPage from "./DetailPage";
 
-
+export let statusCondition = null
 
 export default function DataPage() {
-  // state for data
-  const [item, setItem] = useState([])
-  const [search, setSearch] = useState("")
-  const [categoryData, setCategoryData] = useState([])
-  const [categories, setCategories] = useState([])
 
-  const [ownershipData, setOwnershipData] = useState([])
-  const [ownership, setOwnership] = useState([])
+  const [item, setItem] = useState([]);
+  const [search, setSearch] = useState("");
+  const [categoryData, setCategoryData] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const [ownershipData, setOwnershipData] = useState([]);
+  const [ownership, setOwnership] = useState([]);
+
+  const [assetData, setAssetData] = useState([]);
+  const [codeData, setCodeData] = useState([]);
 
   const [error, setError] = useState(false);
+  const [detailBarang, setDetailBarang] = useState(false);
+  const [idBarang, setIdBarang] = useState("")
+
+  const handleDetail = (id) => {
+    setIdBarang(id)
+    setDetailBarang(true);
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,9 +49,10 @@ export default function DataPage() {
   useEffect(() => {
     getAllItems((data) => {
       console.log(data.item);
-      setItem(data.item)
-    })
+      setItem(data.item);
+    });
   }, []);
+
 
   const fetchCategoryData = useCallback(async () => {
     try {
@@ -71,11 +85,42 @@ export default function DataPage() {
   const deleteItem = async (id) => {
     try {
       await axios.delete(`http://localhost:3006/delete/${id}`);
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
+
+
+  // FETCH CODE
+  const fetchCodeData = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3006/getCode");
+      console.log("ini adalah", response);
+      setCodeData(response.data.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCodeData();
+  }, []);
+
+  // FETCH ASSET
+  const fetchAssetData = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3006/getAsset");
+      console.log("ini adalah", response);
+      setAssetData(response.data.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAssetData();
+  }, []);
 
   const handleDelete = (id) => {
     swal({
@@ -107,8 +152,9 @@ export default function DataPage() {
 
   const handleSearch = () => {
     // Lakukan sesuatu dengan nilai search, misalnya mengirim permintaan ke API
-    console.log('Melakukan pencarian dengan kata kunci:', search);
+    console.log("Melakukan pencarian dengan kata kunci:", search);
   };
+
 
   const calculateCondition = (purchaseDate) => {
     if (purchaseDate) {
@@ -118,28 +164,33 @@ export default function DataPage() {
       const conditionPercentage = 100 - yearsSincePurchase * 10;
 
       if (conditionPercentage >= 70) {
-        return "SANGAT BAIK";
-      } else if (conditionPercentage >= 50) {
         return "BAIK";
-      } else if (conditionPercentage >= 30) {
+      } else if (conditionPercentage >= 50) {
         return "KURANG BAIK";
+      } else if (conditionPercentage >= 30) {
+        return "RUSAK";
       } else {
-        return "TIDAK LAYAK";
+        return "RUSAK";
       }
     }
   };
 
-
-
   return (
     <>
+      {detailBarang && (
+        <Modal2 title="DETAIL BARANG">
+          <DetailPage id={idBarang} detailBarang={detailBarang} setDetailBarang={setDetailBarang} />
+        </Modal2>
+      )}
       {!error ? (
-
         <MainLayout title={"Data Barang"}>
           <div className="flex justify-between items-center">
             <div className="flex flex-row justify-start items-center gap-10 mb-4">
               <div className="flex items-center gap-2">
-                <label htmlFor="category" className="text-slate-700 font-semibold">
+                <label
+                  htmlFor="category"
+                  className="text-slate-700 font-semibold"
+                >
                   Kategori:
                 </label>
                 <select
@@ -159,7 +210,10 @@ export default function DataPage() {
                 </select>
               </div>
               <div className="flex items-center gap-2">
-                <label htmlFor="relevance" className="text-slate-700 font-semibold">
+                <label
+                  htmlFor="relevance"
+                  className="text-slate-700 font-semibold"
+                >
                   Kepemilikan:
                 </label>
                 <select
@@ -181,7 +235,13 @@ export default function DataPage() {
             </div>
             <div>
               <div className="border rounded-lg p-1 bg-slate-400">
-                <input type="text" className="rounded-lg text-center" value={search} onChange={handleInputChange} placeholder="Search..." />
+                <input
+                  type="text"
+                  className="rounded-lg text-center"
+                  value={search}
+                  onChange={handleInputChange}
+                  placeholder="Search..."
+                />
                 <button onClick={handleSearch}></button>
               </div>
             </div>
@@ -200,23 +260,35 @@ export default function DataPage() {
                   Nama Barang
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Merk
+                </th>
+                <th scope="col" className="px-6 py-3">
                   Kategori
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Kepemilikan
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Lokasi
+                {/* <th scope="col" className="px-6 py-3">
+                  Asset
                 </th>
+                <th scope="col" className="px-6 py-3">
+                  Code
+                </th> */}
+                {/* <th scope="col" className="px-6 py-3">
+                  Lokasi
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Stock
                 </th>
+                {/* <th scope="col" className="px-6 py-3">
+                  Harga
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Total
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Status
                 </th>
-                {/* <th scope="col" className="px-6 py-3">
-              Value
-            </th> */}
                 <th scope="col" className="px-6 py-3">
                   Tanggal Beli
                 </th>
@@ -226,31 +298,41 @@ export default function DataPage() {
               </tr>
             </thead>
             <tbody>
-              {item.filter((data) => {
-                // return search === '' ? data : data.itemName.toLowerCase().includes(search);
-                const itemName = data.itemName.toLowerCase();
-                const query = search.toLowerCase();
-                return itemName.includes(query);
-              })
+              {item
                 .filter((data) => {
-                  const categoryFilter = document.getElementById("category").value;
-                  console.log("ini", categoryFilter);
-                  return categoryFilter === "" ? data
-                    : categoryFilter === "1" ? data.category.id === 1
-                      : categoryFilter === "2" ? data.category.id === 2
-                        : data.category.id === 3
+                  // return search === '' ? data : data.itemName.toLowerCase().includes(search);
+                  const itemName = data.itemName.toLowerCase();
+                  const query = search.toLowerCase();
+                  return itemName.includes(query);
                 })
                 .filter((data) => {
-                  const ownershipFilter = document.getElementById("ownership").value;
+                  const categoryFilter =
+                    document.getElementById("category").value;
+                  console.log("ini", categoryFilter);
+                  return categoryFilter === ""
+                    ? data
+                    : categoryFilter === "1"
+                      ? data.category.id === 1
+                      : categoryFilter === "2"
+                        ? data.category.id === 2
+                        : data.category.id === 3;
+                })
+                .filter((data) => {
+                  const ownershipFilter =
+                    document.getElementById("ownership").value;
                   console.log("ini", ownershipFilter);
-                  return ownershipFilter === "" ? data
-                    : ownershipFilter === "1" ? data.ownership.id === 1
-                      : ownershipFilter === "2" ? data.ownership.id === 2
-                        : data.ownership.id === 3
-                }).map((data, index) => {
+                  return ownershipFilter === ""
+                    ? data
+                    : ownershipFilter === "1"
+                      ? data.ownership.id === 1
+                      : ownershipFilter === "2"
+                        ? data.ownership.id === 2
+                        : data.ownership.id === 3;
+                })
+                .map((data, index) => {
                   const condition = calculateCondition(data.purchaseDate);
+                  statusCondition = condition
                   return (
-
                     <tr
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                       key={data.id}
@@ -263,38 +345,69 @@ export default function DataPage() {
                       </th>
                       <td className="px-6 py-4">{data.itemId}</td>
                       <td className="px-6 py-4">{data.itemName}</td>
-                      <td className="px-6 py-4">{data.category.categoryName}</td>
-                      <td className="px-6 py-4">{data.ownership.ownershipName}</td>
-                      <td className="px-6 py-4"><a target="blank_" href={data.location.mapUrl}>{data.location.address}</a></td>
+                      <td className="px-6 py-4">{data.merk}</td>
+                      <td className="px-6 py-4">
+                        {data.category.categoryName}
+                      </td>
+                      <td className="px-6 py-4">
+                        {data.ownership.ownershipName}
+                      </td>
+                      {/* <td className="px-6 py-4">
+                        {data.asset.assetName}
+                      </td> */}
+                      {/* <td className="px-6 py-4">
+                        {data.code.codeName}
+
+                      </td> */}
+                      {/* <td className="px-6 py-4">
+                        <a target="blank_" href={data.location.mapUrl}>
+                          {data.location.address}
+                        </a>
+                      </td> */}
                       <td className="px-6 py-4">{data.qty}</td>
+                      {/* <td className="px-6 py-4">{data.price}</td>
+                      <td className="px-6 py-4">{data.total}</td> */}
                       <td className="px-6 py-4">{condition}</td>
                       {/* <td className="px-6 py-4">{data.status}%</td> */}
-                      <td className="px-6 py-4">{moment(data.purchaseDate).format("DD-MM-YYYY")}</td>
+                      <td className="px-6 py-4">
+                        {moment(data.purchaseDate).format("YYYY")}
+                      </td>
 
-                      <td className=" px-6 py-4 flex justify-between items-center">
+                      <td className=" px-6 py-4 flex justify-between items-center gap-2">
+                        <button
+                          onClick={() => {
+                            handleDetail(data.id)
+                          }}
+                        >
+                          <IoMdEye className="text-[25px]" />
+                        </button>
+
                         <Link to={`/edit/${data.id}`}>
                           {" "}
                           <a href="" className="">
                             <Icons.pen width="25px" height="25px" />
                           </a>
                         </Link>
-                        <button className="" onClick={() => handleDelete(data.id)}>
-                          <Icons.trash width="35px" height="35px" color="#ff0000" />
+                        <button
+                          className=""
+                          onClick={() => handleDelete(data.id)}
+                        >
+                          <Icons.trash
+                            width="35px"
+                            height="35px"
+                            color="#ff0000"
+                          />
                         </button>
                       </td>
-
-
                     </tr>
-                  )
+                  );
                 })}
             </tbody>
           </table>
         </MainLayout>
       ) : (
         <LoginPage />
-
       )}
-
     </>
-  )
+  );
 }

@@ -1,56 +1,70 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { GiPowerButton } from "react-icons/gi";
+import AuthLogo from "../../templates/AuthLogo";
+import AuthLogo2 from "../../templates/AuthLogo2";
 
 export default function Sidebar() {
-
   const handleNavigation = (route) => {
-    window.location.href = route
+    window.location.href = route;
     console.log(route);
-  }
+  };
+
+  const handleLogout = () => {
+    swal({
+      title: "Apakah Anda yakin akan keluar?",
+      text: "Anda akan logout dari aplikasi.",
+      icon: "warning",
+      buttons: ["Batal", "Logout"],
+      dangerMode: true,
+    }).then((confirmLogout) => {
+      if (confirmLogout) {
+        // Lakukan proses logout
+        localStorage.clear();
+        swal("Berhasil Logout", "Anda telah keluar.", "success").then(() => {
+          // Redirect ke halaman logout
+          window.location.href = "/";
+        });
+      }
+    });
+  };
 
   return (
     <>
-      <div className="flex flex-col w-full bg-slate-400 shadow-lg">
+      <div className="flex flex-col w-full bg-white shadow-lg">
         <div className="flex w-full px-4 py-8 space-x-2 flex-col">
-          <h1 className="text-[30px] text-center font-bold uppercase ml-6">My Inventory</h1>
-          <div className="flex flex-row justify-center gap-x-6 items-center mt-4">
-            <img src="/image/ag-3.png" className="w-16 h-16 bg-cover"></img>
-            <img src="/image/dg-3.svg" className="w-14 h-16"></img>
-          </div>
+          <h1 className="text-[30px] text-center font-bold uppercase ml-6">
+
+          </h1>
+          <AuthLogo2 />
+
         </div>
-        <div className="flex flex-col w-full h-[70%] p-4 space-y-4 text-white">
+        <div className="flex flex-col justify-center mt-10 w-full h-[70%] p-4 space-y-4 text-black">
           <Link
             to="/dashboard"
-            className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full"
+            className="px-4 py-2 rounded-md text-md font-medium border-b border-black ease-in duration-300 hover:translate-x-6 w-full"
           >
             Dashboard
           </Link>
           <Link
             to="/datapage"
-            className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full"
+            className="px-4 py-2 rounded-md text-md font-medium border-b border-black ease-in duration-300 hover:translate-x-6 w-full"
           >
             Data Barang
           </Link>
 
-          <select onChange={(e) => handleNavigation(e.target.value)} name="" id="" placeholder="" className=" bg-slate-400 px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full" > INPUT
-            <option disabled selected className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full">Input</option>
-            <option value="/inputpage" className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full">Input Barang</option>
-            <option value="/inputownership" className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full">Input Pemilik</option>
-            <option value="/inputcategory" className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full">Input Category</option>
-            <option value="/inputlocation" className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full">Input Lokasi</option>
-          </select>
-
           <Link
-            to="/track"
-            className="px-4 py-2 rounded-md text-md font-medium border-b ease-in duration-300 hover:translate-x-6 w-full"
+            to="/inputpage"
+            className="px-4 py-2 rounded-md text-md font-medium border-b border-black ease-in duration-300 hover:translate-x-6 w-full"
           >
-            Track
+            {" "}
+            Input{" "}
           </Link>
         </div>
+
         <div className="flex justify-center items-center w-full px-8 pt-16 mb-10">
-          <h1 className="text-lg font-semibold text-muted">
-            All Rights Reserved. © 2023
-          </h1>
+          <GiPowerButton onClick={handleLogout} className="text-[40px] " />
+          <p className="text-[25px]">Log Out</p>
         </div>
       </div>
     </>

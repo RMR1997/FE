@@ -5,6 +5,7 @@ import InputForm from "../components/molecules/InputForm";
 import Button from "../components/atoms/Button";
 import swal from "sweetalert";
 import LoginPage from "./login";
+import MainLayout2 from "../components/templates/Main2";
 
 export default function InputCategory() {
     const [categoryName, setCategoryName] = useState("");
@@ -23,11 +24,11 @@ export default function InputCategory() {
     }, [error]);
 
     const addCategory = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
             await axios.post("http://localhost:3006/postCategory", {
-                categoryName: categoryName
-            })
+                categoryName: categoryName,
+            });
             swal("Sukses", "Berhasil Tambah Data", "success").then(() => {
                 window.location.href = "/datapage";
             });
@@ -37,11 +38,9 @@ export default function InputCategory() {
     };
 
     return (
-
         <>
             {!error ? (
-
-                <MainLayout title={"Input Kategori"}>
+                <MainLayout2 title={"Input Kategori"}>
                     <form onSubmit={addCategory}>
                         <InputForm
                             id="categoryName"
@@ -50,9 +49,7 @@ export default function InputCategory() {
                             type="text"
                             value={categoryName}
                             required="required"
-                            onChange={(e) =>
-                                setCategoryName(e.target.value)
-                            }
+                            onChange={(e) => setCategoryName(e.target.value)}
                             placeholder="Masukan Kategori"
                         />
 
@@ -60,12 +57,10 @@ export default function InputCategory() {
                             Tambah
                         </Button>
                     </form>
-                </MainLayout>
+                </MainLayout2>
             ) : (
                 <LoginPage />
-
-            )
-            }
+            )}
         </>
     );
 }
