@@ -58,7 +58,7 @@ export default function InputOwnership() {
             <InputForm
               id="ownershipCode"
               name="ownershipCode"
-              label="Code Pemilik"
+              label="Kode Pemilik"
               type="text"
               required="required"
               value={ownershipCode}

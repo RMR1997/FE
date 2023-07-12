@@ -153,11 +153,11 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
         <>
 
           <div className="flex flex-col w-full space-y-10">
-            <div>
-              <p className="text-2xl font-medium">Nama Barang : {itemName}</p>
+            <div className="space-y-1">
+              <p className="text-2xl font-medium">Nama Barang     : {itemName}</p>
               <p className="text-2xl font-medium">Kategori Barang : {categoryName}</p>
               <p className="text-2xl font-medium">Tahun Pembelian : {moment(purchaseDate).format("YYYY")}</p>
-              <p className="text-2xl font-medium">Pemilik Aset : {ownershipName}</p>
+              <p className="text-2xl font-medium">Pemilik Aset    : {ownershipName}</p>
               {/* <p className="text-2xl font-medium">Status: {condition}</p> */}
             </div>
 
@@ -173,10 +173,10 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
                     Merk
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Jumlah
+                    Asal Asset
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Asal Asset
+                    Jumlah
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Harga Barang
@@ -184,9 +184,9 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
                   <th scope="col" className="px-6 py-3">
                     Total
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  {/* <th scope="col" className="px-6 py-3">
                     Kondisi
-                  </th>
+                  </th> */}
                   <th scope="col" className="px-6 py-3">
                     Lokasi
                   </th>
@@ -197,12 +197,13 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
 
                   <td className="px-6 py-3">{item.itemId}</td>
                   <td className="px-6 py-3">{item.merk}</td>
+                  <td className="px-6 py-3">{assetName}</td>
                   <td className="px-6 py-3">{item.qty}</td>
                   <td className="px-6 py-3">{formatToIDR(item.price)}</td>
                   <td className="px-6 py-3">{formatToIDR(item.total)}</td>
-                  <td className="px-6 py-3">{assetName}</td>
+
                   {/* <td className="px-6 py-3">{ownershipName}</td> */}
-                  <td className="px-6 py-3">{condition}</td>
+                  {/* <td className="px-6 py-3">{condition}</td> */}
                   <td className="px-6 py-4">
                     <a target="blank_" href={locationMap}>
                       {locationName}

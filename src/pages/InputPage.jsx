@@ -13,7 +13,6 @@ import CurrencyInput from "react-currency-input-field";
 
 export default function InputPage() {
     const [itemName, setItemName] = useState("");
-    const [codeId, setCodeId] = useState("");
     const [assetId, setAssetId] = useState("");
     const [categoryId, setCategoryId] = useState("");
     const [ownershipId, setOwnershipId] = useState("");
@@ -27,7 +26,6 @@ export default function InputPage() {
     const [categoryData, setCategoryData] = useState([]);
     const [locationData, setLocationData] = useState([]);
     const [assetData, setAssetData] = useState([]);
-    const [codeData, setCodeData] = useState([]);
 
     const [error, setError] = useState(false);
 
@@ -51,7 +49,6 @@ export default function InputPage() {
                 categoryId: categoryId,
                 ownershipId: ownershipId,
                 locationId: locationId,
-                codeId: codeId,
                 assetId: assetId,
                 qty: qty,
                 price: price.toString(),
@@ -110,21 +107,6 @@ export default function InputPage() {
         fetchLocationData();
     }, []);
 
-    // FETCH CODE
-    const fetchCodeData = useCallback(async () => {
-        try {
-            const response = await axios.get("http://localhost:3006/getCode");
-            console.log("ini adalah", response);
-            setCodeData(response.data.item);
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
-
-    useEffect(() => {
-        fetchCodeData();
-    }, []);
-
     // FETCH ASSET
     const fetchAssetData = useCallback(async () => {
         try {
@@ -167,17 +149,6 @@ export default function InputPage() {
                             placeholder="Merk"
                         />
 
-                        {/* <InputForm
-                            id="price"
-                            name="price"
-                            label="price"
-                            type="text"
-                            required="required"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            placeholder="Price"
-                        /> */}
-
                         <CurrencyInput
                             className="text-sm border rounded-md w-full py-2 px-3 text-slate-700 placeholder:text-slate-400 bg-gray-200"
                             placeholder="Rp 100,000,000"
@@ -195,33 +166,10 @@ export default function InputPage() {
                             }}
                         />
 
-
-                        <Label>Code</Label>
-                        <select
-                            id="codeId"
-                            name="codeId"
-                            value={codeId}
-                            required="required"
-                            onChange={(e) => {
-                                setCodeId(e.target.value);
-                            }}
-                            className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        >
-                            <option value="" disabled>
-                                Select Code
-                            </option>
-                            {codeData.map((code) => (
-                                <option key={code.id} value={code.id}>
-                                    {code.codeName}
-                                </option>
-                            ))}
-
-                        </select>
-
                         <Label>Asset</Label>
                         <select
-                            id="codeId"
-                            name="codeId"
+                            id="assetId"
+                            name="assetId"
                             value={assetId}
                             required="required"
                             onChange={(e) => {
@@ -230,7 +178,7 @@ export default function InputPage() {
                             className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         >
                             <option value="" disabled>
-                                Select Code
+                                Select Asset
                             </option>
                             {assetData.map((asset) => (
                                 <option key={asset.id} value={asset.id}>
@@ -317,7 +265,7 @@ export default function InputPage() {
                             label="Tanggal Beli"
                             type="date"
                             value={purchaseDate}
-                            required="required"
+                            // required="required"
                             onChange={(e) => {
                                 setPurchaseDate(e.target.value);
                             }}

@@ -9,6 +9,7 @@ import MainLayout2 from "../components/templates/Main2";
 
 export default function InputCategory() {
     const [categoryName, setCategoryName] = useState("");
+    const [categoryCode, setCategoryCode] = useState("");
 
     const [error, setError] = useState(false);
 
@@ -51,6 +52,17 @@ export default function InputCategory() {
                             required="required"
                             onChange={(e) => setCategoryName(e.target.value)}
                             placeholder="Masukan Kategori"
+                        />
+
+                        <InputForm
+                            id="categoryCode"
+                            name="categoryCode"
+                            label="Kode Kategori"
+                            type="text"
+                            value={categoryCode}
+                            required="required"
+                            onChange={(e) => setCategoryCode(e.target.value)}
+                            placeholder="Masukan Kode Kategori"
                         />
 
                         <Button color="bg-green-500" text="text-white" type="submit">

@@ -24,7 +24,6 @@ export default function DataPage() {
   const [ownership, setOwnership] = useState([]);
 
   const [assetData, setAssetData] = useState([]);
-  const [codeData, setCodeData] = useState([]);
 
   const [error, setError] = useState(false);
   const [detailBarang, setDetailBarang] = useState(false);
@@ -91,21 +90,6 @@ export default function DataPage() {
     }
   };
 
-
-  // FETCH CODE
-  const fetchCodeData = useCallback(async () => {
-    try {
-      const response = await axios.get("http://localhost:3006/getCode");
-      console.log("ini adalah", response);
-      setCodeData(response.data.item);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchCodeData();
-  }, []);
 
   // FETCH ASSET
   const fetchAssetData = useCallback(async () => {
@@ -257,14 +241,15 @@ export default function DataPage() {
                   Kode Barang
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Kategori
+                </th>
+                <th scope="col" className="px-6 py-3">
                   Nama Barang
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Merk
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Kategori
-                </th>
+
                 <th scope="col" className="px-6 py-3">
                   Kepemilikan
                 </th>
@@ -277,9 +262,9 @@ export default function DataPage() {
                 {/* <th scope="col" className="px-6 py-3">
                   Lokasi
                 </th> */}
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   Stock
-                </th>
+                </th> */}
                 {/* <th scope="col" className="px-6 py-3">
                   Harga
                 </th>
@@ -289,9 +274,9 @@ export default function DataPage() {
                 <th scope="col" className="px-6 py-3">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   Tanggal Beli
-                </th>
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Aksi
                 </th>
@@ -300,7 +285,6 @@ export default function DataPage() {
             <tbody>
               {item
                 .filter((data) => {
-                  // return search === '' ? data : data.itemName.toLowerCase().includes(search);
                   const itemName = data.itemName.toLowerCase();
                   const query = search.toLowerCase();
                   return itemName.includes(query);
@@ -344,11 +328,12 @@ export default function DataPage() {
                         {index + 1}
                       </th>
                       <td className="px-6 py-4">{data.itemId}</td>
-                      <td className="px-6 py-4">{data.itemName}</td>
-                      <td className="px-6 py-4">{data.merk}</td>
                       <td className="px-6 py-4">
                         {data.category.categoryName}
                       </td>
+                      <td className="px-6 py-4">{data.itemName}</td>
+                      <td className="px-6 py-4">{data.merk}</td>
+
                       <td className="px-6 py-4">
                         {data.ownership.ownershipName}
                       </td>
@@ -364,14 +349,14 @@ export default function DataPage() {
                           {data.location.address}
                         </a>
                       </td> */}
-                      <td className="px-6 py-4">{data.qty}</td>
+                      {/* <td className="px-6 py-4">{data.qty}</td> */}
                       {/* <td className="px-6 py-4">{data.price}</td>
                       <td className="px-6 py-4">{data.total}</td> */}
                       <td className="px-6 py-4">{condition}</td>
                       {/* <td className="px-6 py-4">{data.status}%</td> */}
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         {moment(data.purchaseDate).format("YYYY")}
-                      </td>
+                      </td> */}
 
                       <td className=" px-6 py-4 flex justify-between items-center gap-2">
                         <button

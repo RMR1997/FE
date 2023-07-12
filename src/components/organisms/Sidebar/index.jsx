@@ -62,9 +62,14 @@ export default function Sidebar() {
           </Link>
         </div>
 
-        <div className="flex justify-center items-center w-full px-8 pt-16 mb-10">
-          <GiPowerButton onClick={handleLogout} className="text-[40px] " />
-          <p className="text-[25px]">Log Out</p>
+        <div className="flex justify-start gap-2  w-full px-8 pt-16 mb-10">
+          <button
+            onClick={handleLogout}
+          >
+            <GiPowerButton className="text-[25px]" />
+          </button>
+
+
         </div>
       </div>
     </>
