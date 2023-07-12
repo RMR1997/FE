@@ -11,8 +11,10 @@ import { IoMdEye } from "react-icons/io";
 import Modal2 from "../components/atoms/Modal";
 import DetailPage from "./DetailPage";
 
+export let statusCondition = null
+
 export default function DataPage() {
-  // state for data
+
   const [item, setItem] = useState([]);
   const [search, setSearch] = useState("");
   const [categoryData, setCategoryData] = useState([]);
@@ -21,8 +23,16 @@ export default function DataPage() {
   const [ownershipData, setOwnershipData] = useState([]);
   const [ownership, setOwnership] = useState([]);
 
+  const [assetData, setAssetData] = useState([]);
+
   const [error, setError] = useState(false);
   const [detailBarang, setDetailBarang] = useState(false);
+  const [idBarang, setIdBarang] = useState("")
+
+  const handleDetail = (id) => {
+    setIdBarang(id)
+    setDetailBarang(true);
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,6 +51,7 @@ export default function DataPage() {
       setItem(data.item);
     });
   }, []);
+
 
   const fetchCategoryData = useCallback(async () => {
     try {
@@ -79,6 +90,22 @@ export default function DataPage() {
     }
   };
 
+
+  // FETCH ASSET
+  const fetchAssetData = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3006/getAsset");
+      console.log("ini adalah", response);
+      setAssetData(response.data.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAssetData();
+  }, []);
+
   const handleDelete = (id) => {
     swal({
       title: "Apakah Anda Yakin?",
@@ -112,6 +139,7 @@ export default function DataPage() {
     console.log("Melakukan pencarian dengan kata kunci:", search);
   };
 
+
   const calculateCondition = (purchaseDate) => {
     if (purchaseDate) {
       const currentDate = new Date();
@@ -120,13 +148,13 @@ export default function DataPage() {
       const conditionPercentage = 100 - yearsSincePurchase * 10;
 
       if (conditionPercentage >= 70) {
-        return "SANGAT BAIK";
-      } else if (conditionPercentage >= 50) {
         return "BAIK";
-      } else if (conditionPercentage >= 30) {
+      } else if (conditionPercentage >= 50) {
         return "KURANG BAIK";
+      } else if (conditionPercentage >= 30) {
+        return "RUSAK";
       } else {
-        return "TIDAK LAYAK";
+        return "RUSAK";
       }
     }
   };
@@ -135,7 +163,7 @@ export default function DataPage() {
     <>
       {detailBarang && (
         <Modal2 title="DETAIL BARANG">
-          <DetailPage />
+          <DetailPage id={idBarang} detailBarang={detailBarang} setDetailBarang={setDetailBarang} />
         </Modal2>
       )}
       {!error ? (
@@ -213,29 +241,42 @@ export default function DataPage() {
                   Kode Barang
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Nama Barang
-                </th>
-                <th scope="col" className="px-6 py-3">
                   Kategori
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Nama Barang
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Merk
+                </th>
+
+                <th scope="col" className="px-6 py-3">
                   Kepemilikan
                 </th>
+                {/* <th scope="col" className="px-6 py-3">
+                  Asset
+                </th>
                 <th scope="col" className="px-6 py-3">
+                  Code
+                </th> */}
+                {/* <th scope="col" className="px-6 py-3">
                   Lokasi
+                </th> */}
+                {/* <th scope="col" className="px-6 py-3">
+                  Stock
+                </th> */}
+                {/* <th scope="col" className="px-6 py-3">
+                  Harga
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Stock
-                </th>
+                  Total
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Status
                 </th>
                 {/* <th scope="col" className="px-6 py-3">
-              Value
-            </th> */}
-                <th scope="col" className="px-6 py-3">
                   Tanggal Beli
-                </th>
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Aksi
                 </th>
@@ -244,7 +285,6 @@ export default function DataPage() {
             <tbody>
               {item
                 .filter((data) => {
-                  // return search === '' ? data : data.itemName.toLowerCase().includes(search);
                   const itemName = data.itemName.toLowerCase();
                   const query = search.toLowerCase();
                   return itemName.includes(query);
@@ -256,10 +296,10 @@ export default function DataPage() {
                   return categoryFilter === ""
                     ? data
                     : categoryFilter === "1"
-                    ? data.category.id === 1
-                    : categoryFilter === "2"
-                    ? data.category.id === 2
-                    : data.category.id === 3;
+                      ? data.category.id === 1
+                      : categoryFilter === "2"
+                        ? data.category.id === 2
+                        : data.category.id === 3;
                 })
                 .filter((data) => {
                   const ownershipFilter =
@@ -268,13 +308,14 @@ export default function DataPage() {
                   return ownershipFilter === ""
                     ? data
                     : ownershipFilter === "1"
-                    ? data.ownership.id === 1
-                    : ownershipFilter === "2"
-                    ? data.ownership.id === 2
-                    : data.ownership.id === 3;
+                      ? data.ownership.id === 1
+                      : ownershipFilter === "2"
+                        ? data.ownership.id === 2
+                        : data.ownership.id === 3;
                 })
                 .map((data, index) => {
                   const condition = calculateCondition(data.purchaseDate);
+                  statusCondition = condition
                   return (
                     <tr
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
@@ -287,29 +328,40 @@ export default function DataPage() {
                         {index + 1}
                       </th>
                       <td className="px-6 py-4">{data.itemId}</td>
-                      <td className="px-6 py-4">{data.itemName}</td>
                       <td className="px-6 py-4">
                         {data.category.categoryName}
                       </td>
+                      <td className="px-6 py-4">{data.itemName}</td>
+                      <td className="px-6 py-4">{data.merk}</td>
+
                       <td className="px-6 py-4">
                         {data.ownership.ownershipName}
                       </td>
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
+                        {data.asset.assetName}
+                      </td> */}
+                      {/* <td className="px-6 py-4">
+                        {data.code.codeName}
+
+                      </td> */}
+                      {/* <td className="px-6 py-4">
                         <a target="blank_" href={data.location.mapUrl}>
                           {data.location.address}
                         </a>
-                      </td>
-                      <td className="px-6 py-4">{data.qty}</td>
+                      </td> */}
+                      {/* <td className="px-6 py-4">{data.qty}</td> */}
+                      {/* <td className="px-6 py-4">{data.price}</td>
+                      <td className="px-6 py-4">{data.total}</td> */}
                       <td className="px-6 py-4">{condition}</td>
                       {/* <td className="px-6 py-4">{data.status}%</td> */}
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         {moment(data.purchaseDate).format("YYYY")}
-                      </td>
+                      </td> */}
 
                       <td className=" px-6 py-4 flex justify-between items-center gap-2">
                         <button
                           onClick={() => {
-                            setDetailBarang(true);
+                            handleDetail(data.id)
                           }}
                         >
                           <IoMdEye className="text-[25px]" />

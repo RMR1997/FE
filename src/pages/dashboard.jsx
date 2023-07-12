@@ -9,8 +9,8 @@ import LoginPage from "./login";
 const Dashboard = () => {
   const [item, setItem] = useState([]);
   const [length, setLength] = useState();
-  const [furnitureLength, setFurnitureLength] = useState(0);
-  const [electronicLength, setElectronicLength] = useState(0);
+  const [motorLength, setMotorLength] = useState(0);
+  const [mobilLenght, setMobilLenght] = useState(0);
   const [totalStock, setTotalStock] = useState(0);
 
   const [error, setError] = useState(false);
@@ -37,11 +37,11 @@ const Dashboard = () => {
     console.log(item.length);
     setLength(item.length);
 
-    const furnitureItems = item.filter((item) => item.category.id === 1);
-    setFurnitureLength(furnitureItems.length);
+    const motorItems = item.filter((item) => item.category.id === 1);
+    setMotorLength(motorItems.length);
 
-    const electronicItems = item.filter((item) => item.category.id === 2);
-    setElectronicLength(electronicItems.length);
+    const mobilItems = item.filter((item) => item.category.id === 2);
+    setMobilLenght(mobilItems.length);
 
     const total = item.reduce((acc, cur) => acc + cur.qty, 0);
     setTotalStock(total);
@@ -49,9 +49,10 @@ const Dashboard = () => {
 
   const inventoryData = [
     { title: "Jumlah Barang", count: length, color: "bg-red-200" },
-    { title: "Furniture", count: furnitureLength, color: "bg-green-200" },
-    { title: "Elektronik", count: electronicLength, color: "bg-blue-200" },
     { title: "Stok Barang", count: totalStock, color: "bg-yellow-200" },
+    { title: "Motor", count: motorLength, color: "bg-green-200" },
+    { title: "Mobil", count: mobilLenght, color: "bg-blue-200" },
+
   ];
 
   return (

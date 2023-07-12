@@ -20,8 +20,6 @@ export default function Login() {
 
       localStorage.setItem("token", data.token)
       setLoginError(false);
-      // Munculkan alert keren dengan menggunakan SweetAlert atau library sejenisnya
-      // Contoh penggunaan SweetAlert:
       swal("Berhasil", "Login Berhasil", "success").then(() => {
         window.location.href = "/dashboard";
       });
