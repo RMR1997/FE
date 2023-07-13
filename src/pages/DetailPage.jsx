@@ -153,17 +153,33 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
         <>
 
           <div className="flex flex-col w-full space-y-10">
-            <div className="space-y-1">
-              <p className="text-2xl font-medium">Nama Barang     : {itemName}</p>
-              <p className="text-2xl font-medium">Kategori Barang : {categoryName}</p>
-              <p className="text-2xl font-medium">Tahun Pembelian : {moment(purchaseDate).format("YYYY")}</p>
-              <p className="text-2xl font-medium">Pemilik Aset    : {ownershipName}</p>
+            <div className="space-y-1 font-bold text-2xl font-sans text-black">
+              <div className="flex gap-3 ">
+                <div className="mr-[59px]"><p>Nama Barang </p></div>
+                <div><p>:</p></div>
+                <div><p>{itemName}</p></div>
+              </div>
+              <div className="flex gap-3 ">
+                <div className="mr-7"><p>Kategori Barang  </p></div>
+                <div><p>:</p></div>
+                <div><p>{categoryName}</p></div>
+              </div>
+              <div className="flex gap-3 ">
+                <div className="mr-5"><p>Tahun Pembelian </p></div>
+                <div><p>:</p></div>
+                <div><p>{moment(purchaseDate).format("YYYY")}</p></div>
+              </div>
+              <div className="flex gap-3 ">
+                <div className="mr-[74px]"><p>Pemilik Aset </p></div>
+                <div><p>:</p></div>
+                <div><p>{ownershipName}</p></div>
+              </div>
               {/* <p className="text-2xl font-medium">Status: {condition}</p> */}
             </div>
 
 
             <table className="w-full text-sm text-center dark:text-gray-400">
-              <thead className="text-xs uppercase bg-gray-900 dark:bg-gray-700 dark:text-gray-400">
+              <thead className="text-xs uppercase bg-[#4A55A2] ">
                 <tr className="text-white">
 
                   <th scope="col" className="px-6 py-3">
@@ -192,8 +208,8 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
+              <tbody className="bg-[#A0BFE0]">
+                <tr className="text-black font-medium">
 
                   <td className="px-6 py-3">{item.itemId}</td>
                   <td className="px-6 py-3">{item.merk}</td>

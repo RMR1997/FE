@@ -29,6 +29,7 @@ export default function InputCategory() {
         try {
             await axios.post("http://localhost:3006/postCategory", {
                 categoryName: categoryName,
+                categoryCode: categoryCode,
             });
             swal("Sukses", "Berhasil Tambah Data", "success").then(() => {
                 window.location.href = "/datapage";

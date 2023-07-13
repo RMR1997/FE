@@ -15,6 +15,7 @@ import InputCategory from "./pages/inputcategory";
 import DetailPage from "./pages/DetailPage";
 import Input from "./components/atoms/Input";
 import Tabs from "./pages/input";
+import DownloadPage from "./pages/downloadPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/datapage",
     element: <DataPage />,
+  },
+  {
+    path: "/download",
+    element: <DownloadPage />,
   },
   {
     path: "/inputpage",
