@@ -72,5 +72,16 @@ export default function Chart() {
         },
     };
 
-    return <Bar data={data} options={options} />;
+    return (
+        <>
+            <div className="flex w-full h-full items-center justify-center">
+                <Bar className="bg-[#EEEEEE] w-full " data={data} options={options} />
+            </div>
+
+
+
+
+
+        </>
+    )
 }

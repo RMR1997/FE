@@ -17,7 +17,7 @@ const Tabs = () => {
             <div>
                 <div className="flex ml-5 font-semibold w-3/4">
                     <button
-                        className={`px-4 py-2 ${activeTab === 1 ? "bg-[#EEEEEE] shadow-sm" : "bg-white"
+                        className={`px-4 py-2 ${activeTab === 1 ? "bg-[#EEEEEE]" : "bg-white"
                             }`}
                         onClick={() => handleTabClick(1)}
                     >
