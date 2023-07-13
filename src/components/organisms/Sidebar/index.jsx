@@ -43,20 +43,20 @@ export default function Sidebar() {
         <div className="flex flex-col justify-center mt-10 w-full h-[70%] p-4 space-y-4 text-black">
           <Link
             to="/dashboard"
-            className="px-4 py-2 rounded-md text-md font-medium border-b border-black ease-in duration-300 hover:translate-x-6 w-full"
+            className="px-4 py-2 rounded-md text-md font-medium bg-[#393E46] text-white ease-in duration-300 hover:translate-x-6 w-full"
           >
             Dashboard
           </Link>
           <Link
             to="/datapage"
-            className="px-4 py-2 rounded-md text-md font-medium border-b border-black ease-in duration-300 hover:translate-x-6 w-full"
+            className="px-4 py-2 rounded-md text-md font-medium bg-[#393E46] text-white ease-in duration-300 hover:translate-x-6 w-full"
           >
             Data Barang
           </Link>
 
           <Link
             to="/inputpage"
-            className="px-4 py-2 rounded-md text-md font-medium border-b border-black ease-in duration-300 hover:translate-x-6 w-full"
+            className=" px-4 py-2 rounded-md text-md font-medium bg-[#393E46] text-white ease-in duration-300 hover:translate-x-6 w-full"
           >
             {" "}
             Input{" "}

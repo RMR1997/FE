@@ -184,7 +184,7 @@ export default function DataPage() {
       )}
       {!error ? (
         <MainLayout title={"Data Barang"}
-          option={<Link to={"/download"}><button className=" bg-blue-600 rounded-2xl  text-white p-3 font-bold">Download</button></Link>}
+          option={<Link to={"/download"}><button className=" bg-[#00ADB5] rounded-2xl  text-white p-3 font-bold">Download</button></Link>}
         >
           <div className="flex justify-between items-center">
             <div className="flex flex-row justify-start items-center gap-10 mb-4">

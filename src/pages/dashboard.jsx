@@ -57,7 +57,7 @@ const Dashboard = () => {
 
   const inventoryData = [
     { title: "Jumlah Barang", count: length, color: "bg-red-200" },
-    { title: "Stok Barang", count: totalStock, color: "bg-yellow-200" },
+    { title: "Total Asset", count: totalStock, color: "bg-yellow-200" },
     { title: "Kategori Barang", count: categoryLength, color: "bg-green-200" },
   ];
 
@@ -74,8 +74,9 @@ const Dashboard = () => {
                 title={data.title}
                 count={data.count}
               />
+
             ))}
-            <Chart></Chart>
+            <Chart />
           </div>
         </MainLayout>
       ) : (

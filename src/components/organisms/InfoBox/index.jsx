@@ -14,7 +14,7 @@ const InfoBox = ({ title, count, color }) => {
       </div>
       <div className="mr-4 mt-8">
         {title === "Jumlah Barang" && <Icons.box height="65px" width="75px" />}
-        {title === "Stok Barang" && <Icons.box height="65px" width="75px" />}
+        {title === "Total Asset" && <Icons.box height="65px" width="75px" />}
         {title === "Kategori Barang" && <Icons.box height="65px" width="75px" />}
         {/* {title === "Furniture" && <Icons.furniture height="85px" width="75px" />}
         {title === "Elektronik" && <Icons.elektronik height="85px" width="75px" />}
