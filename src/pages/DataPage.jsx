@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import MainLayout from "../components/templates/Main";
 import { Link } from "react-router-dom";
 import { deleteItem, getAllItems } from "../service/iventory.service";
@@ -11,9 +11,12 @@ import { IoMdEye } from "react-icons/io";
 import Modal2 from "../components/atoms/Modal";
 import DetailPage from "./DetailPage";
 
+
 export let statusCondition = null
 
 export default function DataPage() {
+
+
 
   const [item, setItem] = useState([]);
   const [search, setSearch] = useState("");
@@ -115,20 +118,33 @@ export default function DataPage() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        deleteItem(id)
-          .then(() => {
-            swal("Data berhasil dihapus!", {
-              icon: "success",
-            }).then(() => {
-              window.location.reload();
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        swal({
+          title: "Konfirmasi",
+          text: "Masukkan kata sandi untuk konfirmasi penghapusan:",
+          content: "input",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((password) => {
+          if (password && password.trim() === "12345678") {
+            deleteItem(id)
+              .then(() => {
+                swal("Data berhasil dihapus!", {
+                  icon: "success",
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          } else {
+            swal("Konfirmasi gagal!", "Kata sandi salah.", "error");
+          }
+        });
       }
     });
   };
+
+
 
   const handleInputChange = (event) => {
     setSearch(event.target.value);
@@ -167,7 +183,9 @@ export default function DataPage() {
         </Modal2>
       )}
       {!error ? (
-        <MainLayout title={"Data Barang"}>
+        <MainLayout title={"Data Barang"}
+          option={<Link to={"/download"}><button className=" bg-blue-600 rounded-2xl  text-white p-3 font-bold">Download</button></Link>}
+        >
           <div className="flex justify-between items-center">
             <div className="flex flex-row justify-start items-center gap-10 mb-4">
               <div className="flex items-center gap-2">
@@ -186,11 +204,14 @@ export default function DataPage() {
                 >
                   <option value="">Semua Kategori</option>
 
-                  {categoryData.map((category) => (
-                    <option value={category.id} key={category.id}>
-                      {category.categoryName}
-                    </option>
-                  ))}
+                  {categoryData
+                    .slice() // Salin data kategori ke variabel baru
+                    .sort((a, b) => a.categoryName.localeCompare(b.categoryName))
+                    .map((category) => (
+                      <option value={category.id} key={category.id}>
+                        {category.categoryName}
+                      </option>
+                    ))}
                 </select>
               </div>
               <div className="flex items-center gap-2">
@@ -232,7 +253,7 @@ export default function DataPage() {
           </div>
 
           <table className="w-full text-sm text-center dark:text-gray-400">
-            <thead className="text-xs uppercase bg-gray-900 dark:bg-gray-700 dark:text-gray-400">
+            <thead className="text-xs uppercase bg-[#393E46]">
               <tr className="text-white">
                 <th scope="col" className="px-6 py-3">
                   No
@@ -253,30 +274,9 @@ export default function DataPage() {
                 <th scope="col" className="px-6 py-3">
                   Kepemilikan
                 </th>
-                {/* <th scope="col" className="px-6 py-3">
-                  Asset
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Code
-                </th> */}
-                {/* <th scope="col" className="px-6 py-3">
-                  Lokasi
-                </th> */}
-                {/* <th scope="col" className="px-6 py-3">
-                  Stock
-                </th> */}
-                {/* <th scope="col" className="px-6 py-3">
-                  Harga
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Total
-                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Status
                 </th>
-                {/* <th scope="col" className="px-6 py-3">
-                  Tanggal Beli
-                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Aksi
                 </th>
@@ -290,16 +290,22 @@ export default function DataPage() {
                   return itemName.includes(query);
                 })
                 .filter((data) => {
-                  const categoryFilter =
-                    document.getElementById("category").value;
+                  const categoryFilter = document.getElementById("category").value;
                   console.log("ini", categoryFilter);
-                  return categoryFilter === ""
-                    ? data
-                    : categoryFilter === "1"
-                      ? data.category.id === 1
-                      : categoryFilter === "2"
-                        ? data.category.id === 2
-                        : data.category.id === 3;
+
+                  const categoryMappings = {};
+
+                  for (let i = 1; i <= 30; i++) {
+                    categoryMappings[i.toString()] = i;
+                  }
+
+                  if (categoryFilter === "") {
+                    return data;
+                  } else if (categoryMappings.hasOwnProperty(categoryFilter)) {
+                    return data.category.id === categoryMappings[categoryFilter];
+                  } else {
+                    return false;
+                  }
                 })
                 .filter((data) => {
                   const ownershipFilter =
@@ -318,12 +324,12 @@ export default function DataPage() {
                   statusCondition = condition
                   return (
                     <tr
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                      className="bg-[#A0BFE0] border-b font-medium text-black"
                       key={data.id}
                     >
                       <th
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="px-6 py-4 whitespace-nowrap"
                       >
                         {index + 1}
                       </th>
@@ -337,28 +343,8 @@ export default function DataPage() {
                       <td className="px-6 py-4">
                         {data.ownership.ownershipName}
                       </td>
-                      {/* <td className="px-6 py-4">
-                        {data.asset.assetName}
-                      </td> */}
-                      {/* <td className="px-6 py-4">
-                        {data.code.codeName}
-
-                      </td> */}
-                      {/* <td className="px-6 py-4">
-                        <a target="blank_" href={data.location.mapUrl}>
-                          {data.location.address}
-                        </a>
-                      </td> */}
-                      {/* <td className="px-6 py-4">{data.qty}</td> */}
-                      {/* <td className="px-6 py-4">{data.price}</td>
-                      <td className="px-6 py-4">{data.total}</td> */}
                       <td className="px-6 py-4">{condition}</td>
-                      {/* <td className="px-6 py-4">{data.status}%</td> */}
-                      {/* <td className="px-6 py-4">
-                        {moment(data.purchaseDate).format("YYYY")}
-                      </td> */}
-
-                      <td className=" px-6 py-4 flex justify-between items-center gap-2">
+                      <td className=" px-6 py-4 flex justify-center gap-6 items-center">
                         <button
                           onClick={() => {
                             handleDetail(data.id)
@@ -370,7 +356,7 @@ export default function DataPage() {
                         <Link to={`/edit/${data.id}`}>
                           {" "}
                           <a href="" className="">
-                            <Icons.pen width="25px" height="25px" />
+                            <Icons.pen width="25px" height="25px" color="#3333cc" />
                           </a>
                         </Link>
                         <button

@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function pen({width,height}) {
+export default function pen({ width, height, color }) {
   return (
     <svg
       viewBox="0 0 64 64"
+
       width={width}
       height={height}
       version="1.1"
@@ -19,7 +20,7 @@ export default function pen({width,height}) {
         <g
           id="Page-1"
           stroke="none"
-          fill="#3333cc"
+          fill={color}
         >
           {" "}
           <g

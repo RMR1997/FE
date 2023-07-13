@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { GiPowerButton } from "react-icons/gi";
+import { GiExitDoor, GiPowerButton } from "react-icons/gi";
 import AuthLogo from "../../templates/AuthLogo";
 import AuthLogo2 from "../../templates/AuthLogo2";
+import swal from "sweetalert";
 
 export default function Sidebar() {
   const handleNavigation = (route) => {
@@ -31,7 +32,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="flex flex-col w-full bg-white shadow-lg">
+      <div className="flex flex-col w-full bg-[#EEEEEE] shadow-lg">
         <div className="flex w-full px-4 py-8 space-x-2 flex-col">
           <h1 className="text-[30px] text-center font-bold uppercase ml-6">
 
@@ -63,12 +64,19 @@ export default function Sidebar() {
         </div>
 
         <div className="flex justify-start gap-2  w-full px-8 pt-16 mb-10">
-          <button
-            onClick={handleLogout}
-          >
-            <GiPowerButton className="text-[25px]" />
-          </button>
+          <div>
+            <button className=""
+              onClick={handleLogout}
+            >
 
+              <div className="flex gap-2">
+                <GiExitDoor className="text-[25px]" />
+                <h1 className="font-semibold">Logout</h1>
+              </div>
+
+              {/* <GiPowerButton className="text-[25px]" /> */}
+            </button>
+          </div>
 
         </div>
       </div>
