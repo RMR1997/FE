@@ -75,7 +75,7 @@ export default function Chart() {
     return (
         <>
             <div className="flex w-full h-full items-center justify-center">
-                <Bar className="bg-white w-full " data={data} options={options} />
+                <Bar className="bg-[#EEEEEE] w-full " data={data} options={options} />
             </div>
 
 
