@@ -66,7 +66,7 @@ const Dashboard = () => {
       {!error ? (
         <MainLayout title={"Dashboard"}>
           <div className="flex flex-col ">
-            <div className="flex flex-col justify-center items-center md:flex md:flex-row md:justify-center md:items-center md:gap-x-6 font-bold md:gap-y-24 gap-y-12 mt-8">
+            <div className="flex flex-col justify-center items-center  md:flex md:flex-row md:justify-center md:items-center md:gap-x-6 font-bold md:gap-y-24 gap-y-12 mt-8">
               {inventoryData.map((data, index) => (
                 <InfoBox
                   key={index}
@@ -77,7 +77,7 @@ const Dashboard = () => {
 
               ))}
             </div>
-            <div className="mt-10 w-screen h-[250px] md:flex md:justify-center md:items-center md:mt-20 md:w-full">
+            <div className="flex ml-8 mt-6 items-center w-screen h-[250px] md:flex md:justify-center md:items-center md:mt-20 md:w-full">
               <Chart />
             </div>
           </div>

@@ -172,7 +172,7 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
       {!error ? (
         <>
 
-          <div className="flex flex-col w-full space-y-10">
+          <div className="flex flex-col w-screen space-y-10">
             <div className="space-y-1 font-bold text-2xl font-sans text-black">
               <div className="flex gap-3 ">
                 <div className="mr-[59px]"><p>Nama Barang </p></div>

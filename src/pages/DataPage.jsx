@@ -184,7 +184,7 @@ export default function DataPage() {
       )}
       {!error ? (
         <MainLayout title={"Data Barang"}
-          option={<Link to={"/download"}><button className=" bg-[#00ADB5] rounded-2xl  text-white p-3 font-bold">Download</button></Link>}
+          option={<Link to={"/download"}><button className=" bg-[#019267] rounded-xl  text-white font-semibold p-2">Download Excel</button></Link>}
         >
           <div className="flex justify-between items-center">
             <div className="flex flex-row justify-start items-center gap-10 mb-4">
@@ -202,7 +202,7 @@ export default function DataPage() {
                   className="bg-white rounded-[3px] px-2 py-1 border-b-4 border "
                   onChange={(e) => setCategories(e.target.value)}
                 >
-                  <option value="">Semua Kategori</option>
+                  <option value="" className="">Semua Kategori</option>
 
                   {categoryData
                     .slice() // Salin data kategori ke variabel baru
@@ -239,10 +239,10 @@ export default function DataPage() {
               </div>
             </div>
             <div>
-              <div className="border rounded-lg p-1 bg-slate-400">
+              <div className="border rounded-lg p-1 bg-slate-400 mb-4 ml-10 md:mr-4 md:mb-5">
                 <input
                   type="text"
-                  className="rounded-lg text-center"
+                  className="rounded-lg text-center "
                   value={search}
                   onChange={handleInputChange}
                   placeholder="Search..."
