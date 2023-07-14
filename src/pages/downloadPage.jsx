@@ -11,6 +11,7 @@ import { IoMdEye } from "react-icons/io";
 import Modal2 from "../components/atoms/Modal";
 import DetailPage from "./DetailPage";
 import { useDownloadExcel } from "react-export-table-to-excel";
+import MainLayout3 from "../components/templates/Main3";
 
 export let statusCondition = null
 
@@ -129,7 +130,7 @@ export default function DownloadPage() {
                 </Modal2>
             )}
             {!error ? (
-                <MainLayout title={"Download Barang"}>
+                <MainLayout3 title={"Download Barang"}>
                     <div className="flex justify-end">
                         <button className=" bg-[#00ADB5] rounded-2xl  text-white p-3 font-bold" onClick={onDownload}>DOWNLOAD TO EXCEL</button>
                     </div>
@@ -141,8 +142,8 @@ export default function DownloadPage() {
                             </div>
                         </div>
                     </div>
-
-                    <table ref={tableRef} className="w-full text-sm text-center dark:text-gray-400">
+                <div className="w-[100px]">
+                <table ref={tableRef} className="w-full text-sm text-center dark:text-gray-400">
                         <thead className="text-xs uppercase bg-gray-900 dark:bg-gray-700 dark:text-gray-400">
                             <tr className="text-white">
                                 <th scope="col" className="px-6 py-3">
@@ -233,7 +234,9 @@ export default function DownloadPage() {
                             })}
                         </tbody>
                     </table>
-                </MainLayout>
+                </div>
+                    
+                </MainLayout3>
             ) : (
                 <LoginPage />
             )}

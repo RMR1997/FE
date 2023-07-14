@@ -10,7 +10,6 @@ export default function LoginPage() {
         <>
             <div className="relative flex flex-col md:flex-row w-full h-screen md:w-full md:min-h-screen md:bg-white">
                 {/* <ImageCarousel /> */}
-                <BurgerMenu />
                 <div className="md:block w-full md:w-1/2 h-screen md:bg-[#11A7DC]">
                     <AuthLogo />
                 </div>

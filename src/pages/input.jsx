@@ -16,37 +16,37 @@ const Tabs = () => {
     return (
         <MainLayout>
             <div>
-                <div className="flex ml-5 font-semibold w-3/4">
+                <div className="flex flex-row md:flex ml-5 md:font-semibold md:w-3/4">
                     <button
-                        className={`px-4 py-2 ${activeTab === 1 ? "bg-[#EEEEEE]" : "bg-white"
+                        className={`md:px-2 md:py-4 w-16 md:w-36 text-xs md:text-[16px] flex justify-start items-center ${activeTab === 1 ? "bg-[#EEEEEE] border-2 border-black" : "bg-white"
                             }`}
                         onClick={() => handleTabClick(1)}
                     >
                         Input Barang
                     </button>
                     <button
-                        className={`px-4 py-2 ${activeTab === 2 ? "bg-[#EEEEEE]" : "bg-white"
+                        className={`md:px-2 md:py-4 w-16 md:w-36 text-xs md:text-[16px] flex justify-start items-center  ${activeTab === 2 ? "bg-[#EEEEEE]  border-2 border-black" : "bg-white"
                             }`}
                         onClick={() => handleTabClick(2)}
                     >
                         Input Ownership
                     </button>
                     <button
-                        className={`px-4 py-2 ${activeTab === 3 ? "bg-[#EEEEEE]" : "bg-white"
+                        className={`md:px-2 md:py-4 w-16 md:w-36 text-xs md:text-[16px] flex justify-start items-center ${activeTab === 3 ? "bg-[#EEEEEE]  border-2 border-black" : "bg-white"
                             }`}
                         onClick={() => handleTabClick(3)}
                     >
                         Input Category
                     </button>
                     <button
-                        className={`px-4 py-2 ${activeTab === 4 ? "bg-[#EEEEEE]" : "bg-white"
+                        className={`md:px-2 md:py-4 w-16 md:w-36 text-xs md:text-[16px] flex justify-start items-center ${activeTab === 4 ? "bg-[#EEEEEE]  border-2 border-black" : "bg-white"
                             }`}
                         onClick={() => handleTabClick(4)}
                     >
                         Input Location
                     </button>
                     <button
-                        className={`px-4 py-2 ${activeTab === 5 ? "bg-[#EEEEEE]" : "bg-white"
+                        className={`md:px-2 md:py-4 px-4 w-16 md:w-36 text-xs md:text-[16px] flex justify-start items-center ${activeTab === 5 ? "bg-[#EEEEEE]  border-2 border-black" : "bg-white"
                             }`}
                         onClick={() => handleTabClick(5)}
                     >

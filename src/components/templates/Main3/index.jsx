@@ -4,7 +4,7 @@ import Navbar from "../../organisms/navbar.jsx";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import BurgerMenu from "../../organisms/Menu";
 
-export default function MainLayout({ children, date, title, option }) {
+export default function MainLayout3({ children, date, title, option }) {
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
