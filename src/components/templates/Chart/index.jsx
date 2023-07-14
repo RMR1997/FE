@@ -3,7 +3,6 @@ import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { getAllItems, getCategory } from "../../../service/iventory.service";
 
-
 export default function Chart() {
     const [labels, setLabels] = useState([]);
     const [dataPoints, setDataPoints] = useState([]);
@@ -48,7 +47,7 @@ export default function Chart() {
             const categories = data.item;
             const categoryNames = categories.map((category) => category.categoryName);
             // const categoryData = categories.map((category) => category.categoryData);
-            setLabels(categoryNames)
+            setLabels(categoryNames);
             // setDataPoints(categoryData);
         });
     }, []);
@@ -65,6 +64,8 @@ export default function Chart() {
     };
 
     const options = {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
@@ -74,14 +75,9 @@ export default function Chart() {
 
     return (
         <>
-            <div className="flex w-full h-full items-center justify-center">
+            <div className="flex w-3/4 h-full items-center justify-center">
                 <Bar className="bg-[#EEEEEE] w-full " data={data} options={options} />
             </div>
-
-
-
-
-
         </>
-    )
+    );
 }

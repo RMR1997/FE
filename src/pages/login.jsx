@@ -3,12 +3,14 @@ import Login from "../components/organisms/Login";
 import ImageCarousel from "../components/templates/Carousel";
 import AuthLogo from "../components/templates/AuthLogo";
 import AuthLayout2 from "../components/templates/AuthLayout2";
+import BurgerMenu from "../components/organisms/Menu";
 
 export default function LoginPage() {
     return (
         <>
             <div className="relative flex flex-col md:flex-row w-full h-screen md:w-full md:min-h-screen md:bg-white">
                 {/* <ImageCarousel /> */}
+                <BurgerMenu />
                 <div className="md:block w-full md:w-1/2 h-screen md:bg-[#11A7DC]">
                     <AuthLogo />
                 </div>
