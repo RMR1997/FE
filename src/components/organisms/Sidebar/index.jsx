@@ -32,24 +32,20 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="flex flex-col w-full bg-[#EEEEEE] shadow-lg">
+      <div className="flex flex-col w-[122px] md:w-full bg-[#EEEEEE] shadow-lg">
         <div className="flex w-full px-4 py-8 space-x-2 flex-col">
-          <h1 className="text-[30px] text-center font-bold uppercase ml-6">
-
-          </h1>
           <AuthLogo2 />
-
         </div>
         <div className="flex flex-col justify-center mt-10 w-full h-[70%] p-4 space-y-4 text-black">
           <Link
             to="/dashboard"
-            className="px-4 py-2 rounded-md text-md font-medium bg-[#393E46] text-white ease-in duration-300 hover:translate-x-6 w-full"
+            className="p-2 md:px-4 md:py-2 rounded-md md:text-start md:text-md font-medium bg-[#393E46] text-white ease-in duration-300 hover:translate-x-6 w-full"
           >
             Dashboard
           </Link>
           <Link
             to="/datapage"
-            className="px-4 py-2 rounded-md text-md font-medium bg-[#393E46] text-white ease-in duration-300 hover:translate-x-6 w-full"
+            className="px-4 py-2 rounded-md md:text-md font-medium bg-[#393E46] text-white ease-in duration-300 hover:translate-x-6 w-full"
           >
             Data Barang
           </Link>
@@ -63,15 +59,15 @@ export default function Sidebar() {
           </Link>
         </div>
 
-        <div className="flex justify-start gap-2  w-full px-8 pt-16 mb-10">
+        <div className="flex justify-end md:flex md:justify-start gap-2 w-full px-8 pt-16 mb-10">
           <div>
             <button className=""
               onClick={handleLogout}
             >
 
-              <div className="flex gap-2">
+              <div className="md:flex translate-x-7 md:translate-x-2 gap-2 md:text-md text-sm">
                 <GiExitDoor className="text-[25px]" />
-                <h1 className="font-semibold">Logout</h1>
+                <h1 className="font-semibold ">Logout</h1>
               </div>
 
               {/* <GiPowerButton className="text-[25px]" /> */}

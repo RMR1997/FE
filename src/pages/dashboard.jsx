@@ -65,19 +65,24 @@ const Dashboard = () => {
     <>
       {!error ? (
         <MainLayout title={"Dashboard"}>
+          <div className="flex flex-col ">
+            <div className="flex flex-col justify-center items-center md:flex md:flex-row md:justify-center md:items-center md:gap-x-6 font-bold md:gap-y-24 gap-y-12 mt-8">
+              {inventoryData.map((data, index) => (
+                <InfoBox
+                  key={index}
+                  color={data.color}
+                  title={data.title}
+                  count={data.count}
+                />
 
-          <div className="flex flex-wrap justify-center items-center gap-x-40 font-bold gap-y-24 mt-8">
-            {inventoryData.map((data, index) => (
-              <InfoBox
-                key={index}
-                color={data.color}
-                title={data.title}
-                count={data.count}
-              />
-
-            ))}
-            <Chart />
+              ))}
+            </div>
+            <div className="mt-10 w-screen h-[250px] md:flex md:justify-center md:items-center md:mt-20 md:w-full">
+              <Chart />
+            </div>
           </div>
+
+
         </MainLayout>
       ) : (
         <LoginPage />
