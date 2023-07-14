@@ -16,7 +16,7 @@ export default function pen({ width, height, color }) {
       ></g>
       <g id="SVGRepo_iconCarrier">
         {" "}
-        <title>Pen</title> <desc>Created with Sketch.</desc> <defs> </defs>{" "}
+        <title>Edit</title> <desc></desc> <defs> </defs>{" "}
         <g
           id="Page-1"
           stroke="none"

@@ -22,6 +22,7 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
   const [categoryId, setCategoryId] = useState("");
   const [ownershipId, setOwnershipId] = useState("");
   const [locationId, setLocationId] = useState("");
+  const [statusId, setStatusId] = useState("");
   const [qty, setQty] = useState("");
   // const [status, setStatus] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
@@ -29,12 +30,14 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
   const [ownershipData, setOwnershipData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [locationData, setLocationData] = useState([]);
+  const [statusData, setStatusData] = useState([]);
 
   const [categoryName, setCategoryName] = useState("");
   const [ownershipName, setOwnershipName] = useState("");
   const [assetName, setAssetName] = useState("");
   const [locationName, setLocationName] = useState("");
   const [locationMap, setLocationMap] = useState("");
+  const [statusName, setStatusName] = useState("");
 
   const [error, setError] = useState(false);
 
@@ -66,6 +69,7 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
     setCategoryId(item.categoryId);
     setOwnershipId(item.ownershipId);
     setLocationId(item.locationId);
+    setStatusId(item.statusId);
     setQty(item.qty);
     // setStatus(item.status)
     setPurchaseDate(moment(item.purchaseDate).format("YYYY-MM-DD"));
@@ -74,6 +78,7 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
     setAssetName(item.asset && item.asset.assetName);
     setLocationName(item.location && item.location.address);
     setLocationMap(item.location && item.location.mapUrl);
+    setStatusName(item.status && item.status.statusName);
   }, [item]);
   console.log(categoryData);
 
@@ -122,6 +127,21 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
     fetchLocationData();
   }, []);
 
+  // FETCH STATUS
+  const fetchStatusData = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:3006/getStatus");
+      console.log("ini adalah", response);
+      setStatusData(response.data.item);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStatusData();
+  }, []);
+
 
   const calculateCondition = (purchaseDate) => {
     if (purchaseDate) {
@@ -160,9 +180,9 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
                 <div><p>{itemName}</p></div>
               </div>
               <div className="flex gap-3 ">
-                <div className="mr-7"><p>Kategori Barang  </p></div>
+                <div className="mr-[152px]"><p>Merk</p></div>
                 <div><p>:</p></div>
-                <div><p>{categoryName}</p></div>
+                <div><p>{item.merk}</p></div>
               </div>
               <div className="flex gap-3 ">
                 <div className="mr-5"><p>Tahun Pembelian </p></div>
@@ -185,9 +205,9 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
                   <th scope="col" className="px-6 py-3">
                     Kode Barang
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  {/* <th scope="col" className="px-6 py-3">
                     Merk
-                  </th>
+                  </th> */}
                   <th scope="col" className="px-6 py-3">
                     Asal Asset
                   </th>
@@ -206,13 +226,16 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
                   <th scope="col" className="px-6 py-3">
                     Lokasi
                   </th>
+                  <th scope="col" className="px-6 py-3">
+                    Status
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-[#A0BFE0]">
                 <tr className="text-black font-medium">
 
                   <td className="px-6 py-3">{item.itemId}</td>
-                  <td className="px-6 py-3">{item.merk}</td>
+                  {/* <td className="px-6 py-3">{item.merk}</td> */}
                   <td className="px-6 py-3">{assetName}</td>
                   <td className="px-6 py-3">{item.qty}</td>
                   <td className="px-6 py-3">{formatToIDR(item.price)}</td>
@@ -225,6 +248,7 @@ export default function DetailPage({ id, setDetailBarang, detailBarang }) {
                       {locationName}
                     </a>
                   </td>
+                  <td className="px-6 py-3">{statusName}</td>
                 </tr>
               </tbody>
             </table>
