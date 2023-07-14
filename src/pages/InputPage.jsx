@@ -17,6 +17,7 @@ export default function InputPage() {
     const [categoryId, setCategoryId] = useState("");
     const [ownershipId, setOwnershipId] = useState("");
     const [locationId, setLocationId] = useState("");
+    const [statusId, setStatusId] = useState("");
     const [merk, setMerk] = useState("");
     const [price, setPrice] = useState("");
     const [qty, setQty] = useState("");
@@ -26,6 +27,7 @@ export default function InputPage() {
     const [categoryData, setCategoryData] = useState([]);
     const [locationData, setLocationData] = useState([]);
     const [assetData, setAssetData] = useState([]);
+    const [statusData, setStatusData] = useState([]);
 
     const [error, setError] = useState(false);
 
@@ -50,6 +52,7 @@ export default function InputPage() {
                 ownershipId: ownershipId,
                 locationId: locationId,
                 assetId: assetId,
+                statusId: statusId,
                 qty: qty,
                 price: price.toString(),
                 purchaseDate: purchaseDate,
@@ -122,6 +125,21 @@ export default function InputPage() {
         fetchAssetData();
     }, []);
 
+    // FETCH Status
+    const fetchStatusData = useCallback(async () => {
+        try {
+            const response = await axios.get("http://localhost:3006/getStatus");
+            console.log("ini adalah", response);
+            setStatusData(response.data.item);
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchStatusData();
+    }, []);
+
     return (
         <>
             {!error ? (
@@ -180,12 +198,39 @@ export default function InputPage() {
                             <option value="" disabled>
                                 Select Asset
                             </option>
-                            {assetData.map((asset) => (
-                                <option key={asset.id} value={asset.id}>
-                                    {asset.assetName}
-                                </option>
-                            ))}
+                            {assetData
+                                .slice() // Salin data kategori ke variabel baru
+                                .sort((a, b) => a.assetName.localeCompare(b.assetName))
+                                .map((asset) => (
+                                    <option key={asset.id} value={asset.id}>
+                                        {asset.assetName}
+                                    </option>
+                                ))}
 
+                        </select>
+
+                        <Label>Status</Label>
+                        <select
+                            id="statusId"
+                            name="statusId"
+                            value={statusId}
+                            required="required"
+                            onChange={(e) => {
+                                setStatusId(e.target.value);
+                            }}
+                            className="shadow border rounded w-full py-2 px-2 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        >
+                            <option value="" disabled>
+                                Select Status
+                            </option>
+                            {statusData
+                                .slice() // Salin data kategori ke variabel baru
+                                .sort((a, b) => a.statusName.localeCompare(b.statusName))
+                                .map((status) => (
+                                    <option key={status.id} value={status.id}>
+                                        {status.statusName}
+                                    </option>
+                                ))}
                         </select>
 
                         <Label>Kategori</Label>
@@ -202,11 +247,14 @@ export default function InputPage() {
                             <option value="" disabled>
                                 Select Category
                             </option>
-                            {categoryData.map((category) => (
-                                <option key={category.id} value={category.id}>
-                                    {category.categoryName}
-                                </option>
-                            ))}
+                            {categoryData
+                                .slice()
+                                .sort((a, b) => a.categoryName.localeCompare(b.categoryName))
+                                .map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.categoryName}
+                                    </option>
+                                ))}
                         </select>
 
                         <Label>Pemilik</Label>
@@ -224,11 +272,14 @@ export default function InputPage() {
                             <option value="" disabled>
                                 Select Ownership
                             </option>
-                            {ownershipData.map((ownership) => (
-                                <option key={ownership.id} value={ownership.id}>
-                                    {ownership.ownershipName}
-                                </option>
-                            ))}
+                            {ownershipData
+                                .slice() // Salin data kategori ke variabel baru
+                                .sort((a, b) => a.ownershipName.localeCompare(b.ownershipName))
+                                .map((ownership) => (
+                                    <option key={ownership.id} value={ownership.id}>
+                                        {ownership.ownershipName}
+                                    </option>
+                                ))}
                         </select>
 
                         <Label>Lokasi</Label>
@@ -245,11 +296,14 @@ export default function InputPage() {
                             <option value="" disabled>
                                 Select Location
                             </option>
-                            {locationData.map((location) => (
-                                <option key={location.id} value={location.id}>
-                                    {location.address}
-                                </option>
-                            ))}
+                            {locationData
+                                .slice() // Salin data kategori ke variabel baru
+                                .sort((a, b) => a.address.localeCompare(b.address))
+                                .map((location) => (
+                                    <option key={location.id} value={location.id}>
+                                        {location.address}
+                                    </option>
+                                ))}
                         </select>
 
                         <InputForm

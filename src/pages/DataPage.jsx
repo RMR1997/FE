@@ -275,7 +275,7 @@ export default function DataPage() {
                   Kepemilikan
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Status
+                  Kondisi
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Aksi

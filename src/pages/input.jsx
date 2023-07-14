@@ -4,6 +4,7 @@ import InputOwnership from "./inputownership";
 import InputCategory from "./inputcategory";
 import InputLocation from "./inputlocation";
 import MainLayout from "../components/templates/Main";
+import InputStatus from "./inputstatus";
 
 const Tabs = () => {
     const [activeTab, setActiveTab] = useState(1);
@@ -44,12 +45,20 @@ const Tabs = () => {
                     >
                         Input Location
                     </button>
+                    <button
+                        className={`px-4 py-2 ${activeTab === 5 ? "bg-[#EEEEEE]" : "bg-white"
+                            }`}
+                        onClick={() => handleTabClick(5)}
+                    >
+                        Input Status
+                    </button>
                 </div>
                 <div className="mt-4">
                     {activeTab === 1 && <InputPage />}
                     {activeTab === 2 && <InputOwnership />}
                     {activeTab === 3 && <InputCategory />}
                     {activeTab === 4 && <InputLocation />}
+                    {activeTab === 5 && <InputStatus />}
                 </div>
             </div>
         </MainLayout>
